@@ -9,6 +9,7 @@ import SwiftUI
 
 struct JournalView: View {
     var  JournView : JournalModel
+    @State var contentText : String = ""
     @Environment(\.colorScheme) var colorScheme
     // context menu state
     @State var showCMenu = false
@@ -43,13 +44,13 @@ struct JournalView: View {
         //expanded view of each journal
         NavigationStack{
             ZStack{
-                if !JournView.Image.isEmpty{
-                    Image("Hysterisis")
+                //if !JournView.Image.isEmpty{
+                    Image("")
                         .resizable()
                     //.aspectRatio(contentMode: .fit)
                         .ignoresSafeArea(.all)
                         .blur(radius: 270, opaque: true)
-                }
+               //e }
                 ScrollView{
                     
                     // .opacity(0.9)
@@ -60,14 +61,42 @@ struct JournalView: View {
                         Text(JournView.title)
                             .font(.largeTitle)
                             .padding(.bottom,2)
+                            
+                            
+                            
                         
                         Text(JournView.bodyContent)
+                        
+                        //TextEditor(text: $contentText)
+//                            .toolbar{
+//                                ToolbarItemGroup(placement: .keyboard){
+//                                    Button{
+//                                        //
+//                                    } label:{
+//                                        Image(systemName: "music.note")
+//                                    }
+//                                    
+//                                    Button{
+//                                        //
+//                                    } label:{
+//                                        Image(systemName: "photo.badge.plus")
+//                                    }
+//                                    
+//                                    Button{
+//                                        //
+//                                    } label:{
+//                                        Image(systemName: "photo.badge.plus")
+//                                    }
+//                                }
+//                            }
+                            
                          
                     }
                     .bold()
                     .foregroundStyle(.fill)
                     .background(.ultraThinMaterial.opacity(0))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .foregroundStyle(colorScheme == .dark ? .white : .black)
                     
                     .padding(10)
                     //.background(.ultraThinMaterial)
@@ -77,13 +106,14 @@ struct JournalView: View {
            // .navigationTitle("My Journal")
             //.navigationBarTitleDisplayMode(.inline)
            // .navigationBarTitleDisplayMode(.automatic)
-            .preferredColorScheme(JournView.Image.isEmpty ? nil : .dark)
+            //.preferredColorScheme(JournView.Image.isEmpty ? nil : .dark)
+            .preferredColorScheme(.dark)
             .toolbar {
                 ToolbarItem(placement : .topBarTrailing){
                     Menu{
                         
                         Button{
-                            //code to share
+                            //code to edit
                         } label: {
                             Label("Edit Journal", systemImage: "pencil")
                         }
@@ -95,7 +125,7 @@ struct JournalView: View {
                         }
                         
                         Button{
-                            //code to share
+                            //code to delete
                         } label: {
                             Label("Delete Journal", systemImage: "trash")
                                 

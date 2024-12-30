@@ -15,38 +15,45 @@ struct JournalListView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView (.horizontal){
-                HStack (spacing: -20){
-                    Image("Hysterisis")
-                        .resizable()
-                        .frame(width: 110, height: 70)
-                        .clipShape(Circle())
-                    
-                    Image("Hysterisis")
-                        .resizable()
-                        .frame(width: 110, height: 70)
-                        .clipShape(Circle())
-
-                    Image("Hysterisis")
-                        .resizable()
-                        .frame(width: 110, height: 70)
-                        .clipShape(Circle())
-
-                    Image("Hysterisis")
-                        .resizable()
-                        .frame(width: 110, height: 70)
-                        .clipShape(Circle())
-                    
-                    Image("Hysterisis")
-                        .resizable()
-                        .frame(width: 110, height: 70)
-                        .clipShape(Circle())
-
-
-                }
-}
+//            ScrollView (.horizontal){
+//                
+//                //wekekly journs
+//                
+//                HStack (spacing: -20){
+//                    Image("Hysterisis")
+//                        .resizable()
+//                        .frame(width: 110, height: 70)
+//                        
+//                        .clipShape(Circle())
+////                        .overlay(
+////                            RoundedRectangle(cornerSize: 14)
+////                        )
+//                    Image("Hysterisis")
+//                        .resizable()
+//                        .frame(width: 110, height: 70)
+//                        .clipShape(Circle())
+//
+//                    Image("Hysterisis")
+//                        .resizable()
+//                        .frame(width: 110, height: 70)
+//                        .clipShape(Circle())
+//
+//                    Image("Hysterisis")
+//                        .resizable()
+//                        .frame(width: 110, height: 70)
+//                        .clipShape(Circle())
+//                    
+//                    Image("Hysterisis")
+//                        .resizable()
+//                        .frame(width: 110, height: 70)
+//                        .clipShape(Circle())
+//
+//
+//                }
+//}
+//            .scrollIndicators(.hidden)
             ZStack {
-                Color.bgYellow.ignoresSafeArea(.all)
+                //Color.darkbg.ignoresSafeArea(.all)
                 
             
                 ScrollView {
@@ -54,38 +61,7 @@ struct JournalListView: View {
                    // List {
                         VStack(spacing: 22) {
                             
-                            ScrollView (.horizontal){
-                                HStack (spacing: -20){
-                                    Image("Hysterisis")
-                                        .resizable()
-                                        .frame(width: 110, height: 70)
-                                        .clipShape(Circle())
-                                    
-                                    Image("Hysterisis")
-                                        .resizable()
-                                        .frame(width: 110, height: 70)
-                                        .clipShape(Circle())
-
-                                    Image("Hysterisis")
-                                        .resizable()
-                                        .frame(width: 110, height: 70)
-                                        .clipShape(Circle())
-
-                                    Image("Hysterisis")
-                                        .resizable()
-                                        .frame(width: 110, height: 70)
-                                        .clipShape(Circle())
-                                    
-                                    Image("Hysterisis")
-                                        .resizable()
-                                        .frame(width: 110, height: 70)
-                                        .clipShape(Circle())
-
-
-                                }.frame(maxWidth: .infinity)
-                                    .background(Color.red)
-                                    .offset(x: -280)
-            }
+                            
                             
                             ForEach(Journalss) { journal in
                                 NavigationLink{
@@ -95,22 +71,22 @@ struct JournalListView: View {
                                     mainListView(JournalListModel: journal)
                                 }
                             }
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.yellow.opacity(0.1))
-                                
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.black, lineWidth: 4)
-                                //.listRowSpacing(2)
-                            )
+//                            .background(
+//                                RoundedRectangle(cornerRadius: 10)
+//                                    .fill(Color.blue.opacity(0.1))
+//                                
+//                            )
+//                            .overlay(
+//                                RoundedRectangle(cornerRadius: 12)
+//                                    .stroke(Color.black, lineWidth: 4)
+//                                //.listRowSpacing(2)
+//                            )
                             .scrollTransition(axis : .vertical) {
                                 content, phase in
                                 content
                                     .scaleEffect(
-                                        x: phase.isIdentity ? 1.0 : 0.80,
-                                        y: phase.isIdentity ? 1.0 : 0.80
+                                        x: phase.isIdentity ? 1.0 : 0.94,
+                                        y: phase.isIdentity ? 1.0 : 0.94
                                     )
                             }
 
@@ -155,6 +131,7 @@ struct JournalListView: View {
                         //                            }
                         //                        )
                     }
+                .scrollIndicators(.hidden)
                                     
                     
                     
@@ -175,6 +152,7 @@ struct JournalListView: View {
                 }
             }
             .navigationTitle("Journals")
+            .preferredColorScheme(.dark)
         }
         .sheet(isPresented: $showForm) {
             addJournalView()
@@ -200,18 +178,21 @@ struct mainListView : View{
                 Text(JournalListModel.title)
                     .font(.title)
                     .bold()
-                    .foregroundStyle(.black)
+                    
                 Text(JournalListModel.bodyContent)
-                    .opacity(0.5)
+                    .opacity(0.8)
                     .lineLimit(2)
+                    //.foregroundStyle(.black)
                     
                     //.frame(width: 210)
                 Spacer()
             }
             .frame(width: 230, alignment: .topLeading)
+            .foregroundStyle(.fill)
+            .background(.regularMaterial.opacity(0))
             
             
-            Image("")
+            Image("Hysterisis")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
             
@@ -226,8 +207,20 @@ struct mainListView : View{
         }
         .padding()
         .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.yellow)
+            ZStack {
+              Image("Hysterisis")
+                    .resizable()
+                    
+                    
+               // Color.white
+                    .blur(radius: 250, opaque: true)
+                    
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.ultraThinMaterial)
+            }
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                
+            
         )
         .overlay(
             RoundedRectangle(cornerRadius: 12)
@@ -238,6 +231,7 @@ struct mainListView : View{
     }
 }
 
+// create new journal
 struct addJournalView: View{
     //var JournalFormModel : JournalModel
     @Environment(\.dismiss) var dismiss
@@ -250,7 +244,7 @@ struct addJournalView: View{
         NavigationStack{
             ZStack {
                 //Color.bgYellow.ignoresSafeArea()
-                Image("")
+                Image("Hysterisis")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 105, height: 100)
@@ -269,7 +263,8 @@ struct addJournalView: View{
                     TextEditor(text: $JournalContent)
                         .foregroundStyle(.fill)
                         .scrollContentBackground(.hidden)
-                        .background(Color.bgYellow)
+                        .foregroundStyle(.black)
+                        //.background(Color.bgYellow)
                         .padding(.top, -20.0)
                     //.ignoresSafeArea()
                     
@@ -281,6 +276,7 @@ struct addJournalView: View{
             }
             .navigationTitle("Journal Entry")
             .navigationBarTitleDisplayMode(.inline)
+            .presentationBackground(.thickMaterial)
             .toolbar{
                 ToolbarItem(placement: .topBarLeading){
                     Button{

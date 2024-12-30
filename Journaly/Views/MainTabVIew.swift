@@ -14,9 +14,12 @@ struct MainTabVIew: View {
                 .tabItem{
                     Label("Journal", systemImage: "text.book.closed.fill")
                 }
-            
-            
+            SettingsView()
+                .tabItem{
+                Label("Settings", systemImage: "gearshape.fill")
+            }
         }
+        //.tint(.darkbg)
     }
 }
 
