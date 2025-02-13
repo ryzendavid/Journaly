@@ -11,7 +11,8 @@ struct JournalView: View {
     var  JournView : JournalModel
     @State var contentText : String = ""
     @Environment(\.colorScheme) var colorScheme
-    // context menu state
+    @Environment(\.modelContext) var context
+     // context menu state
     @State var showCMenu = false
     // var menuData : [MenuItem]
     // date format
@@ -23,20 +24,7 @@ struct JournalView: View {
     
     
     // context menu contents
-    let MenuItems = ContextMenu {
-        Button{
-            // code to share journal
-        } label: {
-            Text("Share Journal")
-        }
-        
-        Button {
-            // code to delete journal
-        } label : {
-            Text("Delete Journal")
-                .foregroundStyle(.red)
-        }
-    }
+   
     
     
     //let blur = bl
@@ -61,11 +49,13 @@ struct JournalView: View {
                         Text(JournView.title)
                             .font(.largeTitle)
                             .padding(.bottom,2)
+                            .frame(alignment: .leading)
                             
                             
                             
                         
                         Text(JournView.bodyContent)
+                        
                         
                         //TextEditor(text: $contentText)
 //                            .toolbar{
@@ -109,6 +99,14 @@ struct JournalView: View {
             //.preferredColorScheme(JournView.Image.isEmpty ? nil : .dark)
             .preferredColorScheme(.dark)
             .toolbar {
+                ToolbarItem(placement: .topBarTrailing){
+                    Image(systemName: "waveform")
+                        .foregroundStyle(.fill)
+                        .font(.title2)
+                        .bold()
+                        .background(.ultraThinMaterial.opacity(0))
+                        .symbolEffect(.bounce.up.byLayer, options: .repeat(.continuous))
+                }
                 ToolbarItem(placement : .topBarTrailing){
                     Menu{
                         
@@ -126,6 +124,7 @@ struct JournalView: View {
                         
                         Button{
                             //code to delete
+                           // deleteJournal(deleteJournal)
                         } label: {
                             Label("Delete Journal", systemImage: "trash")
                                 
@@ -135,17 +134,26 @@ struct JournalView: View {
 
                         
                     } label: {
+                        
                         Image(systemName: "circle.hexagongrid.circle")
                             .foregroundStyle(.fill)
                             .font(.title2)
                             .bold()
                             .background(.ultraThinMaterial.opacity(0))
+                            .symbolEffect(.bounce.down.byLayer, options: .nonRepeating)    
+                            
+                            
                         }
                     }
             }
             
             
             }
+    }
+    
+    func deleteJournal(_ deleteJournal : JournalModel){
+        //let JournDelete = JournalModel
+        context.delete(deleteJournal)
     }
         
     }

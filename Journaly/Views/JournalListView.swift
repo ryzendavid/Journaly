@@ -53,7 +53,7 @@ struct JournalListView: View {
 //}
 //            .scrollIndicators(.hidden)
             ZStack {
-                //Color.darkbg.ignoresSafeArea(.all)
+                Color.bgYellow.ignoresSafeArea(.all)
                 
             
                 ScrollView {
@@ -71,16 +71,6 @@ struct JournalListView: View {
                                     mainListView(JournalListModel: journal)
                                 }
                             }
-//                            .background(
-//                                RoundedRectangle(cornerRadius: 10)
-//                                    .fill(Color.blue.opacity(0.1))
-//                                
-//                            )
-//                            .overlay(
-//                                RoundedRectangle(cornerRadius: 12)
-//                                    .stroke(Color.black, lineWidth: 4)
-//                                //.listRowSpacing(2)
-//                            )
                             .scrollTransition(axis : .vertical) {
                                 content, phase in
                                 content
@@ -146,13 +136,14 @@ struct JournalListView: View {
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .font(.system(size: 65))
+                                .foregroundStyle(.black)
                         }
                     }
                     .padding([.bottom, .trailing], 28.0)
                 }
             }
             .navigationTitle("Journals")
-            .preferredColorScheme(.dark)
+            //.preferredColorScheme(.dark)
         }
         .sheet(isPresented: $showForm) {
             addJournalView()
@@ -160,7 +151,7 @@ struct JournalListView: View {
     }
     func hapticFeedback(){
         let generator = UIImpactFeedbackGenerator(style:.light)
-        generator.impactOccurred(intensity: 0.8)
+        generator.impactOccurred(intensity: 1)
     }
 }
 
@@ -171,8 +162,22 @@ struct JournalListView: View {
 // create list view
 struct mainListView : View{
     var JournalListModel: JournalModel
+    let MenuItems = ContextMenu {
+        Button{
+            // code to share journal
+        } label: {
+            Text("Share Journal")
+        }
+        
+        Button {
+            // code to delete journal
+        } label : {
+            Text("Delete Journal")
+                .foregroundStyle(.red)
+        }
+    }
     var body: some View{
-        HStack (alignment : .top){
+        HStack (alignment: .top){
             
             VStack(alignment: .leading){
                 Text(JournalListModel.title)
@@ -181,24 +186,25 @@ struct mainListView : View{
                     
                 Text(JournalListModel.bodyContent)
                     .opacity(0.8)
-                    .lineLimit(2)
+                    .lineLimit(4)
                     //.foregroundStyle(.black)
                     
                     //.frame(width: 210)
-                Spacer()
+                //Spacer()
             }
-            .frame(width: 230, alignment: .topLeading)
+            .frame( alignment: .leading)
             .foregroundStyle(.fill)
             .background(.regularMaterial.opacity(0))
             
             
-            Image("Hysterisis")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
             
-                .frame(width: 105, height: 100)
-                .clipped()
-                .cornerRadius(11)
+//            Image("Hysterisis")
+//                .resizable()
+//                .aspectRatio(contentMode: .fill)
+//            
+//                .frame(width: 105, height: 100)
+//                .clipped()
+//                .cornerRadius(11)
             
             //.clipShape(RoundedRectangle(cornerSize: 15))
             
@@ -206,14 +212,15 @@ struct mainListView : View{
             
         }
         .padding()
+        .frame(width: 380, alignment: .topLeading)
         .background(
             ZStack {
-              Image("Hysterisis")
+              Image("")
                     .resizable()
                     
                     
                // Color.white
-                    .blur(radius: 250, opaque: true)
+                    .blur(radius: 150, opaque: true)
                     
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.ultraThinMaterial)
@@ -228,6 +235,7 @@ struct mainListView : View{
             
         )
         //.frame(width: 400)
+        .contextMenu(MenuItems)
     }
 }
 
@@ -289,7 +297,7 @@ struct addJournalView: View{
                 ToolbarItem(placement: .topBarTrailing){
                     Button{
                         // code to save journal
-                        addnewJourn()
+                        SaveJournal()
                     } label: {
                         Text("Save Journal")
                     }
@@ -297,10 +305,17 @@ struct addJournalView: View{
             }
         }
     }
-    func addnewJourn(){
+    //save journal
+    func SaveJournal(){
         let newJournal = JournalModel(title: JournalTitle, Image: "", date: JournalDate, bodyContent: JournalContent)
         context.insert(newJournal)
         dismiss()
+    }
+    
+    //deleteJournal
+    func deleteJournal(_ deleteJournal : JournalModel){
+        //let JournDelete = JournalModel
+        context.delete(deleteJournal)
     }
     
 }
