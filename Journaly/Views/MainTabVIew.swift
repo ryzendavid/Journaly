@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct MainTabVIew: View {
+    @State var backgroundColor: Color = .white
     var body: some View {
         TabView{
-            JournalListView()
+            JournalListView(backgroundColor: $backgroundColor)
                 .tabItem{
                     Label("Journal", systemImage: "text.book.closed.fill")
                 }
@@ -18,6 +19,10 @@ struct MainTabVIew: View {
                 .tabItem{
                 Label("Settings", systemImage: "gearshape.fill")
             }
+            BackgroundPickerView(bacckgroundColor: $backgroundColor)
+                .tabItem{
+                    Label("PickerView", systemImage: "circle.hexagongrid.circle")
+                }
         }
         //.tint(.darkbg)
     }

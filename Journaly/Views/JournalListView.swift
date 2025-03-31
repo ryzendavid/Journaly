@@ -12,138 +12,131 @@ struct JournalListView: View {
     @State var showForm: Bool = false
     @Query var Journalss : [JournalModel]
     @Environment(\.modelContext) var context
+    @Binding var backgroundColor : Color
     
     var body: some View {
         NavigationStack {
-//            ScrollView (.horizontal){
-//                
-//                //wekekly journs
-//                
-//                HStack (spacing: -20){
-//                    Image("Hysterisis")
-//                        .resizable()
-//                        .frame(width: 110, height: 70)
-//                        
-//                        .clipShape(Circle())
-////                        .overlay(
-////                            RoundedRectangle(cornerSize: 14)
-////                        )
-//                    Image("Hysterisis")
-//                        .resizable()
-//                        .frame(width: 110, height: 70)
-//                        .clipShape(Circle())
-//
-//                    Image("Hysterisis")
-//                        .resizable()
-//                        .frame(width: 110, height: 70)
-//                        .clipShape(Circle())
-//
-//                    Image("Hysterisis")
-//                        .resizable()
-//                        .frame(width: 110, height: 70)
-//                        .clipShape(Circle())
-//                    
-//                    Image("Hysterisis")
-//                        .resizable()
-//                        .frame(width: 110, height: 70)
-//                        .clipShape(Circle())
-//
-//
-//                }
-//}
-//            .scrollIndicators(.hidden)
+            //            ScrollView (.horizontal){
+            //
+            //                //wekekly journs
+            //
+            //                HStack (spacing: -20){
+            //                    Image("Hysterisis")
+            //                        .resizable()
+            //                        .frame(width: 110, height: 70)
+            //
+            //                        .clipShape(Circle())
+            ////                        .overlay(
+            ////                            RoundedRectangle(cornerSize: 14)
+            ////                        )
+            //                    Image("Hysterisis")
+            //                        .resizable()
+            //                        .frame(width: 110, height: 70)
+            //                        .clipShape(Circle())
+            //
+            //                    Image("Hysterisis")
+            //                        .resizable()
+            //                        .frame(width: 110, height: 70)
+            //                        .clipShape(Circle())
+            //
+            //                    Image("Hysterisis")
+            //                        .resizable()
+            //                        .frame(width: 110, height: 70)
+            //                        .clipShape(Circle())
+            //
+            //                    Image("Hysterisis")
+            //                        .resizable()
+            //                        .frame(width: 110, height: 70)
+            //                        .clipShape(Circle())
+            //
+            //
+            //                }
+            //}
+            //            .scrollIndicators(.hidden)
             ZStack {
-                Color.bgYellow.ignoresSafeArea(.all)
+               // Color.backgroundCo.ignoresSafeArea(.all)
                 
-            
+                backgroundColor.ignoresSafeArea(.all)
                 ScrollView {
                     
-                   // List {
-                        VStack(spacing: 22) {
-                            
-                            
-                            
-                            ForEach(Journalss) { journal in
-                                NavigationLink{
-                                    JournalView(JournView: journal)
-                                    
-                                } label: {
-                                    mainListView(JournalListModel: journal)
-                                }
-                            }
-                            .scrollTransition(axis : .vertical) {
-                                content, phase in
-                                content
-                                    .scaleEffect(
-                                        x: phase.isIdentity ? 1.0 : 0.94,
-                                        y: phase.isIdentity ? 1.0 : 0.94
-                                    )
-                            }
-
-                            
-                        }
-                        .padding()
+                    // List {
+                    VStack(spacing: 22) {
                         
                         
-                        //                        .overlay(
-                        //
-                        //                            VStack{
-                        //                                //Spacer()
-                        //                                if Journalss.isEmpty {
-                        //                                    ContentUnavailableView(
-                        //                                        label: {
-                        //                                            Label("No Journals", image: "rectangle.portrait.slash.fill")
-                        //                                        }, description: {
-                        //                                            Text("Add Journals to see them here")
-                        //                                        }, actions: {
-                        //                                            Button{
-                        //                                                //
-                        //                                            } label: {
-                        //                                                Text("Add Journal")
-                        //                                            }
-                        //                                        }
-                        //                                    )
-                        //                                } else{
-                        //                                    HStack{
-                        //                                        Spacer()
-                        //                                        Button {
-                        //                                            showForm.toggle()
-                        //                                            hapticFeedbackError()
-                        //
-                        //                                        } label: {
-                        //                                            Image(systemName: "plus.circle.fill")
-                        //                                                .font(.largeTitle)
-                        //                                        }
-                        //                                    }
-                        //                                    .padding()
-                        //                                }
-                        //
-                        //                            }
-                        //                        )
-                    }
-                .scrollIndicators(.hidden)
-                                    
-                    
-                    
-                //}
-                VStack{
-                    Spacer()
-                    HStack (){
-                        Spacer()
-                        Button {
-                            hapticFeedback()
-                            showForm = true
-                        } label: {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 65))
-                                .foregroundStyle(.black)
+                        
+                        ForEach(Journalss) { journal in
+                            NavigationLink{
+                                JournalView(JournView: journal, backgroundColor: $backgroundColor)
+                                
+                            } label: {
+                                mainListView(JournalListModel: journal)
+                            }
                         }
+                        .scrollTransition(axis : .vertical) {
+                            content, phase in
+                            content
+                                .scaleEffect(
+                                    x: phase.isIdentity ? 1.0 : 0.94,
+                                    y: phase.isIdentity ? 1.0 : 0.94
+                                )
+                        }
+                        
+                        
                     }
-                    .padding([.bottom, .trailing], 28.0)
+                    .padding()
+                    
+                    
+                   
                 }
+                .scrollIndicators(.hidden)
+                
+                
+                
+                //}
+
             }
             .navigationTitle("Journals")
             //.preferredColorScheme(.dark)
+            .overlay(
+                
+                VStack{
+                    //Spacer()
+                    if Journalss.isEmpty {
+                        ContentUnavailableView(
+                            label: {
+                                Label("No Journals", systemImage: "book")
+                                    .font(.largeTitle)
+                            }, description: {
+                                Text("Add Journals to see them here")
+                            }, actions: {
+                                Button{
+                                    //
+                                    showForm = true
+                                } label: {
+                                    Text("Add Journal")
+                                }
+                            }
+                        ).offset(y: -60)
+                    } else{
+                                        VStack{
+                                            Spacer()
+                                            HStack (){
+                                                Spacer()
+                                                Button {
+                                                    hapticFeedback()
+                                                    showForm = true
+                                                } label: {
+                                                    Image(systemName: "plus.circle.fill")
+                                                        .font(.system(size: 65))
+                                                        .foregroundStyle(.black)
+                                                }
+                                            }
+                                            .padding([.bottom, .trailing], 28.0)
+                                        }
+                    }
+                    
+                }
+            )
         }
         .sheet(isPresented: $showForm) {
             addJournalView()
@@ -156,11 +149,12 @@ struct JournalListView: View {
 }
 
 #Preview {
-    JournalListView()
+    JournalListView(backgroundColor: .constant(.red))
 }
 
 // create list view
 struct mainListView : View{
+    @Environment(\.modelContext) var context
     var JournalListModel: JournalModel
     let MenuItems = ContextMenu {
         Button{
@@ -171,6 +165,9 @@ struct mainListView : View{
         
         Button {
             // code to delete journal
+            //deleteJournal(JournalListModel)
+            
+            
         } label : {
             Text("Delete Journal")
                 .foregroundStyle(.red)
@@ -183,13 +180,13 @@ struct mainListView : View{
                 Text(JournalListModel.title)
                     .font(.title)
                     .bold()
-                    
+                
                 Text(JournalListModel.bodyContent)
                     .opacity(0.8)
                     .lineLimit(4)
-                    //.foregroundStyle(.black)
-                    
-                    //.frame(width: 210)
+                //.foregroundStyle(.black)
+                
+                //.frame(width: 210)
                 //Spacer()
             }
             .frame( alignment: .leading)
@@ -198,13 +195,13 @@ struct mainListView : View{
             
             
             
-//            Image("Hysterisis")
-//                .resizable()
-//                .aspectRatio(contentMode: .fill)
-//            
-//                .frame(width: 105, height: 100)
-//                .clipped()
-//                .cornerRadius(11)
+            //            Image("Hysterisis")
+            //                .resizable()
+            //                .aspectRatio(contentMode: .fill)
+            //
+            //                .frame(width: 105, height: 100)
+            //                .clipped()
+            //                .cornerRadius(11)
             
             //.clipShape(RoundedRectangle(cornerSize: 15))
             
@@ -215,18 +212,18 @@ struct mainListView : View{
         .frame(width: 380, alignment: .topLeading)
         .background(
             ZStack {
-              Image("")
+                Image("")
                     .resizable()
-                    
-                    
-               // Color.white
+                
+                
+                // Color.white
                     .blur(radius: 150, opaque: true)
-                    
+                
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.ultraThinMaterial)
             }
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                
+            
             
         )
         .overlay(
@@ -236,6 +233,11 @@ struct mainListView : View{
         )
         //.frame(width: 400)
         .contextMenu(MenuItems)
+    }
+    
+    func deleteJournal(_ deleteJournal : JournalModel){
+        //let JournDelete = JournalModel
+        context.delete(deleteJournal)
     }
 }
 
@@ -252,12 +254,12 @@ struct addJournalView: View{
         NavigationStack{
             ZStack {
                 //Color.bgYellow.ignoresSafeArea()
-                Image("Hysterisis")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 105, height: 100)
-                    .clipped()
-                    .cornerRadius(11)
+                //                Image("")
+                //                    .resizable()
+                //                    .aspectRatio(contentMode: .fit)
+                //                    .frame(width: 105, height: 100)
+                //                    .clipped()
+                //                    .cornerRadius(11)
                 VStack{
                     //Color.bgYellow.ignoresSafeArea()
                     
@@ -272,7 +274,7 @@ struct addJournalView: View{
                         .foregroundStyle(.fill)
                         .scrollContentBackground(.hidden)
                         .foregroundStyle(.black)
-                        //.background(Color.bgYellow)
+                    //.background(Color.bgYellow)
                         .padding(.top, -20.0)
                     //.ignoresSafeArea()
                     
@@ -313,10 +315,7 @@ struct addJournalView: View{
     }
     
     //deleteJournal
-    func deleteJournal(_ deleteJournal : JournalModel){
-        //let JournDelete = JournalModel
-        context.delete(deleteJournal)
-    }
+   
     
 }
 

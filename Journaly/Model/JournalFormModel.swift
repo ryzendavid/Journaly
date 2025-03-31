@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class JournalModel: Identifiable {
+final class JournalModel: Identifiable {
     var title : String
     var Image : String
     var date : Date

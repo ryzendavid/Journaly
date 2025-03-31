@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct JournalyApp: App {
+    
+    @StateObject private var navigationContext = NavContext()
 //    var sharedModelContainer: ModelContainer = {
 //        let schema = Schema([
 //            Item.self,

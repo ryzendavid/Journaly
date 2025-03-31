@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct SettingsView: View {
+    let image = Image("Hysterisis")
+    
+    
     var body: some View {
         NavigationStack {
             VStack{
-                Image(systemName: "gear")
+               
+                ShareLink(item: image, preview: SharePreview("Hysterisis", image: image))
                 
             }
             .navigationTitle("Settings")
