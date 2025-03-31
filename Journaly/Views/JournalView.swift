@@ -43,7 +43,7 @@ struct JournalView: View {
 //                    .blur(radius: 270, opaque: true)
                 //e }
                 //Color.bgYellow.ignoresSafeArea(.all)
-                //backgroundColor.ignoresSafeArea(.all)
+                backgroundColor.ignoresSafeArea(.all)
 //                (LinearGradient(gradient: Gradient(colors: [Color.lightPurple, Color.actionPink]), startPoint: .top, endPoint: .bottom)).ignoresSafeArea(.all)
                 ScrollView{
                     
