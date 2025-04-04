@@ -18,6 +18,7 @@ struct JournalView: View {
     @Environment(\.dismiss) var dismiss
     let image = Image("Hysterisis")
     @Binding var backgroundColor: Color
+    @State var showUpdateView : JournalModel?
     
     
     // context menu state
@@ -113,6 +114,10 @@ struct JournalView: View {
                     .onAppear{
                         audioManager.loadSound(named: "ArcSfx")
                     }
+                    .sheet(item: $showUpdateView){ journ in
+                        updateJournalView(journal: journ)
+                    }
+                    
                     
                 }
             }
@@ -121,6 +126,7 @@ struct JournalView: View {
             // .navigationBarTitleDisplayMode(.automatic)
             //.preferredColorScheme(JournView.Image.isEmpty ? nil : .dark)
             //.preferredColorScheme(.allCases)
+            
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing){
                     
@@ -149,7 +155,7 @@ struct JournalView: View {
                         
                         Button{
                             //code to edit
-                            
+                            //updateJournalView(journal: JournalModel)
                         } label: {
                             Label("Edit Journal", systemImage: "pencil")
                         }
@@ -210,6 +216,10 @@ struct JournalView: View {
         print("Journal has been deleted")
     }
     
+    func editJournal(){
+        
+    }
+    
 //   private func delJournal(offsets : IndexSet){
 //        for index in offsets {
 //            context.delete(JournalModel[index])
@@ -223,6 +233,71 @@ struct JournalView: View {
     JournalView(JournView: JournalModel(title: "My Journal", Image: "Image", date: Date(), bodyContent: "Reflections, dreams, and daily musings. A safe space for capturing thoughts, tracking growth, and exploring the journey of life. It’s a chronicle of growth, a record of achievements, and a sanctuary for unfiltered self-expression."), backgroundColor: .constant(.white))
 }
 
+struct updateJournalView: View{
+    
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) var context
+    @Bindable var journal : JournalModel
+    @State var JournalTitle: String = ""
+    @State var JournalContent: String = ""
+    var body: some View{
+        NavigationStack{
+            ZStack {
+                //Color.bgYellow.ignoresSafeArea()
+                //                Image("")
+                //                    .resizable()
+                //                    .aspectRatio(contentMode: .fit)
+                //                    .frame(width: 105, height: 100)
+                //                    .clipped()
+                //                    .cornerRadius(11)
+                VStack{
+                    //Color.bgYellow.ignoresSafeArea()
+                    
+                    //Text("Some text")
+                    TextField("Journal Title", text: $journal.title)
+                        .padding()
+                        .font(.title)
+                    Divider()
+                        .frame(height: 10)
+                        .padding(.vertical, -20)
+                    TextEditor(text: $journal.bodyContent)
+                        .foregroundStyle(.fill)
+                        .scrollContentBackground(.hidden)
+                        .foregroundStyle(.black)
+                    //.background(Color.bgYellow)
+                        .padding(.top, -20.0)
+                    //.ignoresSafeArea()
+                    
+                    
+                }
+                
+                
+                
+            }
+            .navigationTitle("Update Journal")
+            .navigationBarTitleDisplayMode(.inline)
+            .presentationBackground(.thickMaterial)
+            .toolbar{
+                ToolbarItem(placement: .topBarLeading){
+                    Button{
+                        dismiss()
+                    }label: {
+                        Text("Cancel")
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing){
+                    Button{
+                        // code to save journal
+                       
+                    } label: {
+                        Text("Save Journal")
+                    }
+                }
+            }
+        }
+    }
+}
 
 //struct CustomTextEditor: UIViewRepresentable {
 //    @Binding var text: String

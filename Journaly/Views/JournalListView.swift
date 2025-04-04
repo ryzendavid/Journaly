@@ -156,23 +156,8 @@ struct JournalListView: View {
 struct mainListView : View{
     @Environment(\.modelContext) var context
     var JournalListModel: JournalModel
-    let MenuItems = ContextMenu {
-        Button{
-            // code to share journal
-        } label: {
-            Text("Share Journal")
-        }
-        
-        Button {
-            // code to delete journal
-            //deleteJournal(JournalListModel)
-            
-            
-        } label : {
-            Text("Delete Journal")
-                .foregroundStyle(.red)
-        }
-    }
+    @State var showformUpdate: Bool = false
+    var journalss: JournalModel?
     var body: some View{
         HStack (alignment: .top){
             
@@ -192,7 +177,9 @@ struct mainListView : View{
             .frame( alignment: .leading)
             .foregroundStyle(.fill)
             .background(.regularMaterial.opacity(0))
-            
+            .sheet(isPresented: $showformUpdate){
+                addJournalView(journal: JournalListModel)
+            }
             
             
             //            Image("Hysterisis")
@@ -232,7 +219,34 @@ struct mainListView : View{
             
         )
         //.frame(width: 400)
-        .contextMenu(MenuItems)
+        .contextMenu{
+            Button {
+                // code to edit journal
+                
+                showformUpdate = true
+                
+            } label : {
+                Text("Edit Journal")
+                    .foregroundStyle(.red)
+            }
+            
+            Button{
+                // code to share journal
+            } label: {
+                Text("Share Journal")
+            }
+            
+            Button {
+                // code to delete journal
+                //deleteJournal(JournalListModel)
+                
+                
+            } label : {
+                Text("Delete Journal")
+                    .foregroundStyle(.red)
+            }
+        }
+        
     }
     
     func deleteJournal(_ deleteJournal : JournalModel){
@@ -250,6 +264,15 @@ struct addJournalView: View{
     @State var JournalDate: Date = .now
     @State var JournalImage: String = ""
     @Environment(\.modelContext) var context
+    
+    init(journal: JournalModel? = nil){
+        self.journal = journal
+        _JournalTitle = State(initialValue: journal?.title ?? "")
+        _JournalContent = State(initialValue: journal?.bodyContent ?? "")
+        _JournalDate = State(initialValue: journal?.date ?? .now)
+        
+    }
+    var journal: JournalModel?
     var body: some View{
         NavigationStack{
             ZStack {
@@ -284,7 +307,14 @@ struct addJournalView: View{
                 
                 
             }
-            .navigationTitle("Journal Entry")
+            .onAppear {
+                if let journal = journal {
+                    JournalTitle = journal.title
+                    JournalContent = journal.bodyContent
+                    JournalDate = journal.date
+                }
+            }
+            .navigationTitle(journal == nil ? "New Journal" : "Edit Journal")
             .navigationBarTitleDisplayMode(.inline)
             .presentationBackground(.thickMaterial)
             .toolbar{
@@ -309,21 +339,28 @@ struct addJournalView: View{
     }
     //save journal
     func SaveJournal(){
-        let newJournal = JournalModel(title: JournalTitle, Image: "", date: JournalDate, bodyContent: JournalContent)
-        context.insert(newJournal)
+        if let journal = journal{
+            journal.title = JournalTitle
+            journal.bodyContent = JournalContent
+            journal.date = JournalDate
+            
+        } else{
+            let newJournal = JournalModel(title: JournalTitle, Image: "", date: JournalDate, bodyContent: JournalContent)
+            context.insert(newJournal)
+            
+        }
         dismiss()
     }
-    
-    //deleteJournal
-   
     
 }
 
 
 
-
-
-
+struct JournalFormModel {
+    var title: String = ""
+    var bodyContent: String = ""
+    var date: Date = Date()
+}
 
 
 
