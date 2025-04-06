@@ -15,7 +15,7 @@ struct MainTabVIew: View {
                 .tabItem{
                     Label("Journal", systemImage: "text.book.closed.fill")
                 }
-            SettingsView()
+            SettingsView(backgroundColor: $backgroundColor)
                 .tabItem{
                 Label("Settings", systemImage: "gearshape.fill")
             }

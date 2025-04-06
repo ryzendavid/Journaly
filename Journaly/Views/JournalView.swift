@@ -16,14 +16,25 @@ struct JournalView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    let image = Image("Hysterisis")
+    let image = Image("sunsetMobile")
     @Binding var backgroundColor: Color
-    @State var showUpdateView : JournalModel?
+    @State var showUpdateView = false
+    var journals : JournalModel?
+    @State var blurValues = 0.0
+    @State var isChanging = false
+    @State var toggleBlur = false
     
     
     // context menu state
     @State var showCMenu = false
     
+//    init(journasl: JournalModel? = nil){
+//        self.journals = journals
+//        _JournalTitle = State(initialValue: journal?.title ?? "")
+//        _JournalContent = State(initialValue: journal?.bodyContent ?? "")
+//        _JournalDate = State(initialValue: journal?.date ?? .now)
+//        
+//    }
     
     // date format
     let dateFormatter: DateFormatter = {
@@ -35,170 +46,201 @@ struct JournalView: View {
     var body: some View {
         //expanded view of each journal
         NavigationStack{
+            
             ZStack{
                 //if !JournView.Image.isEmpty{
-//                Image("")
-//                    .resizable()
-//                //.aspectRatio(contentMode: .fit)
-//                    .ignoresSafeArea(.all)
-//                    .blur(radius: 270, opaque: true)
+                
+                Image("sunsetMobileD")
+                    .resizable()
+                //.aspectRatio(contentMode: .fit)
+                    .ignoresSafeArea(.all)
+                    .blur(radius: blurValues, opaque: true)
                 //e }
                 //Color.bgYellow.ignoresSafeArea(.all)
-                backgroundColor.ignoresSafeArea(.all)
-//                (LinearGradient(gradient: Gradient(colors: [Color.lightPurple, Color.actionPink]), startPoint: .top, endPoint: .bottom)).ignoresSafeArea(.all)
+                //backgroundColor.ignoresSafeArea(.all)
+                //                (LinearGradient(gradient: Gradient(colors: [Color.lightPurple, Color.actionPink]), startPoint: .top, endPoint: .bottom)).ignoresSafeArea(.all)
                 ScrollView{
-                    
-                    // .opacity(0.9)
-                    VStack (alignment: .leading){
-                        
-                        Text(dateFormatter.string(from: Date()))
-                        //.padding(.bottom, 3)
-                        Text(JournView.title)
-                            .font(.largeTitle)
-                            .padding(.bottom,2)
-                            .frame(alignment: .leading)
-                        
-                        
-     // text edit does not work with the fill property. I suggest we have the journal body as a text element. then to edit/enter content user has to click the menu button and edit from there
-                        
-                        Text(JournView.bodyContent)
-                        
-                        
-//                        
-//                        TextEditor(text: $contentText)
-//                        
-//                            
-//                            .scrollContentBackground(.hidden)
-//                            //.background(.ultraThinMaterial.opacity(0))
-//                            .scrollIndicators(.hidden)
-//                            .foregroundStyle(.fill)
-//                            .background(Color.clear)
-//                            
-//                        
-//                            .onAppear{
-//                                contentText = JournView.bodyContent
-//                            }
-//                            .toolbar{
-//                                ToolbarItemGroup(placement: .keyboard){
-//                                    Button{
-//                                        //
-//                                    } label:{
-//                                        Image(systemName: "music.note")
-//                                    }
-//                                    
-//                                    Button{
-//                                        //
-//                                    } label:{
-//                                        Image(systemName: "photo.badge.plus")
-//                                    }
-//                                    
-//                                    Button{
-//                                        //
-//                                    } label:{
-//                                        Image(systemName: "photo.badge.plus")
-//                                    }
-//                                }
-//                            }
+                    if !isChanging{
+                        // .opacity(0.9)
+                        VStack (alignment: .leading){
                             
+                            Text(dateFormatter.string(from: Date()))
+                            //.padding(.bottom, 3)
+                            Text(JournView.title)
+                                .font(.largeTitle)
+                                .padding(.bottom,2)
+                                .frame(alignment: .leading)
+                            
+                            
+                            // text edit does not work with the fill property. I suggest we have the journal body as a text element. then to edit/enter content user has to click the menu button and edit from there
+                            
+                            Text(JournView.bodyContent)
+                            
+                            
+                            //
+                            //                        TextEditor(text: $contentText)
+                            //
+                            //
+                            //                            .scrollContentBackground(.hidden)
+                            //                            //.background(.ultraThinMaterial.opacity(0))
+                            //                            .scrollIndicators(.hidden)
+                            //                            .foregroundStyle(.fill)
+                            //                            .background(Color.clear)
+                            //
+                            //
+                            //                            .onAppear{
+                            //                                contentText = JournView.bodyContent
+                            //                            }
+                            //                            .toolbar{
+                            //                                ToolbarItemGroup(placement: .keyboard){
+                            //                                    Button{
+                            //                                        //
+                            //                                    } label:{
+                            //                                        Image(systemName: "music.note")
+                            //                                    }
+                            //
+                            //                                    Button{
+                            //                                        //
+                            //                                    } label:{
+                            //                                        Image(systemName: "photo.badge.plus")
+                            //                                    }
+                            //
+                            //                                    Button{
+                            //                                        //
+                            //                                    } label:{
+                            //                                        Image(systemName: "photo.badge.plus")
+                            //                                    }
+                            //                                }
+                            //                            }
+                            
+                            
+                        }
+                        .bold()
+                        .foregroundStyle(.fill)
+                        .background(.ultraThinMaterial.opacity(0))
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        //.foregroundStyle(colorScheme == .dark ? .white : .black)
+                        
+                        .padding(10)
+                        //.background(.ultraThinMaterial)
+                        .onAppear{
+                            audioManager.loadSound(named: "ArcSfx")
+                        }
+                        .sheet(isPresented: $showUpdateView){
+                            addEditJournalView()
+                        }
                         
                         
-                    }
-                    .bold()
-                    .foregroundStyle(.fill)
-                    .background(.ultraThinMaterial.opacity(0))
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                    //.foregroundStyle(colorScheme == .dark ? .white : .black)
-                    
-                    .padding(10)
-                    //.background(.ultraThinMaterial)
-                    .onAppear{
-                        audioManager.loadSound(named: "ArcSfx")
-                    }
-                    .sheet(item: $showUpdateView){ journ in
-                        updateJournalView(journal: journ)
+                        
                     }
                     
                     
                 }
-            }
-            // .navigationTitle("My Journal")
-            //.navigationBarTitleDisplayMode(.inline)
-            // .navigationBarTitleDisplayMode(.automatic)
-            //.preferredColorScheme(JournView.Image.isEmpty ? nil : .dark)
-            //.preferredColorScheme(.allCases)
-            
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing){
-                    
-                    Button{
-                        audioManager.togglePlayback()
-                    } label:{
-                        if audioManager.isPlaying{
-                            Image(systemName: "waveform")
-                                .foregroundStyle(.fill)
-                                .font(.title2)
-                                .bold() 
-                                .background(.ultraThinMaterial.opacity(0))
+                // .navigationTitle("My Journal")
+                //.navigationBarTitleDisplayMode(.inline)
+                // .navigationBarTitleDisplayMode(.automatic)
+                //.preferredColorScheme(JournView.Image.isEmpty ? nil : .dark)
+                //.preferredColorScheme(.allCases)
+                
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing){
+                        
+                        Button{
+                            audioManager.togglePlayback()
+                        } label:{
+                            if audioManager.isPlaying{
+                                Image(systemName: "waveform")
+                                    .foregroundStyle(.fill)
+                                    .font(.title2)
+                                    .bold()
+                                    .background(.ultraThinMaterial.opacity(0))
+                                
+                                    .symbolEffect(.bounce.up.byLayer, options: .repeat(.continuous))
+                            } else{
+                                Image(systemName: "waveform")
+                                    .foregroundStyle(.fill)
+                                    .font(.title2)
+                                    .bold()
+                                    .background(.ultraThinMaterial.opacity(0))
+                            }
+                        }
+                    }
+                    ToolbarItem(placement : .topBarTrailing){
+                        Menu{
                             
-                                .symbolEffect(.bounce.up.byLayer, options: .repeat(.continuous))
-                        } else{
-                            Image(systemName: "waveform")
+                            
+                            Button{
+                                toggleBlur.toggle()
+                            }label: {
+                                if toggleBlur{
+                                    
+                                    Label("Background Blur", systemImage: "xmark")
+                                } else{
+                                    Label("Background Blur", systemImage: "squareshape.dotted.squareshape")
+                                }
+                            }
+                            Button{
+                                //code to edit
+                                //updateJournalView(journal: JournalModel)
+                                showUpdateView = true
+                                
+                            } label: {
+                                Label("Edit Journal", systemImage: "pencil")
+                            }
+                            
+                            
+                            //share journal
+                            ShareLink(item: image, preview: SharePreview(JournView.title, image: image)) {
+                                Label("Share Journal", systemImage: "square.and.arrow.up")
+                            }
+                            
+                            Button{
+                                //code to delete
+                                
+                                deleteJournal(JournView)
+                                
+                                
+                            } label: {
+                                Label("Delete Journal", systemImage: "trash")
+                                
+                                
+                            }
+                            //.foregroundStyle(.red)
+                            
+                            
+                            
+                        } label: {
+                            
+                            Image(systemName: "circle.hexagongrid.circle")
                                 .foregroundStyle(.fill)
                                 .font(.title2)
                                 .bold()
                                 .background(.ultraThinMaterial.opacity(0))
+                                .symbolEffect(.bounce.down.byLayer, options: .nonRepeating)
+                            
+                            
                         }
                     }
                 }
-                ToolbarItem(placement : .topBarTrailing){
-                    Menu{
+                
+                if toggleBlur{
+                    withAnimation(.spring(duration: 3.0)){
                         
-                        Button{
-                            //code to edit
-                            //updateJournalView(journal: JournalModel)
-                        } label: {
-                            Label("Edit Journal", systemImage: "pencil")
+                        
+                        VStack{
+                            Spacer()
+                            Slider(value: $blurValues, in: 0...500,
+                                   onEditingChanged: { editing in
+                                isChanging = editing
+                            }
+                            )
+                            Text("Blur Value: \(String(format:"%.0f",blurValues))")
+                                .font(.system(size: 20, weight: .bold, design: .default))
                         }
-                        
-                        Button{
-                            //code to share
-//                            ShareLink(item: URL(string: "https://developer.apple.com/documentation/swiftui/sharelink")!)
-                            
-                           
-                           
-                        } label: {
-                            Label("Share Journal", systemImage: "square.and.arrow.up.circle")
-                        }
-                        
-                        //share journal
-                        ShareLink(item: image, preview: SharePreview(JournView.title, image: image)) {
-                            Label("Share Journal", systemImage: "square.and.arrow.up")
-                        }
-                        
-                        Button{
-                            //code to delete
-                            
-                            deleteJournal(JournView)
-                           
-                        
-                        } label: {
-                            Label("Delete Journal", systemImage: "trash")
-                            
-                            
-                        }
-                        //.foregroundStyle(.red)
-                        
-                        
-                        
-                    } label: {
-                        
-                        Image(systemName: "circle.hexagongrid.circle")
-                            .foregroundStyle(.fill)
-                            .font(.title2)
-                            .bold()
-                            .background(.ultraThinMaterial.opacity(0))
-                            .symbolEffect(.bounce.down.byLayer, options: .nonRepeating)
-                        
+                        .padding()
+                        .bold()
+                        .foregroundStyle(.fill)
+                        .background(.ultraThinMaterial.opacity(0))
                         
                     }
                 }
@@ -233,6 +275,8 @@ struct JournalView: View {
     JournalView(JournView: JournalModel(title: "My Journal", Image: "Image", date: Date(), bodyContent: "Reflections, dreams, and daily musings. A safe space for capturing thoughts, tracking growth, and exploring the journey of life. It’s a chronicle of growth, a record of achievements, and a sanctuary for unfiltered self-expression."), backgroundColor: .constant(.white))
 }
 
+
+// no need for this view. add journal has been updated to add/edit based on use case
 struct updateJournalView: View{
     
     @Environment(\.dismiss) var dismiss

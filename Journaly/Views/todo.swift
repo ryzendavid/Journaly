@@ -15,3 +15,4 @@ import Foundation
 // implement colour backgrounds
 // get testers for the app
 // implement image backgrounf support(For later)
+// for images, an option to increase or decrease blur. This can be in the menubar button. maybe brings up a sheet with the image and a slider underneath.

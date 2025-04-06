@@ -54,7 +54,7 @@ struct JournalListView: View {
             //}
             //            .scrollIndicators(.hidden)
             ZStack {
-               // Color.backgroundCo.ignoresSafeArea(.all)
+                // Color.backgroundCo.ignoresSafeArea(.all)
                 
                 backgroundColor.ignoresSafeArea(.all)
                 ScrollView {
@@ -84,16 +84,9 @@ struct JournalListView: View {
                         
                     }
                     .padding()
-                    
-                    
-                   
+
                 }
                 .scrollIndicators(.hidden)
-                
-                
-                
-                //}
-
             }
             .navigationTitle("Journals")
             //.preferredColorScheme(.dark)
@@ -118,28 +111,28 @@ struct JournalListView: View {
                             }
                         ).offset(y: -60)
                     } else{
-                                        VStack{
-                                            Spacer()
-                                            HStack (){
-                                                Spacer()
-                                                Button {
-                                                    hapticFeedback()
-                                                    showForm = true
-                                                } label: {
-                                                    Image(systemName: "plus.circle.fill")
-                                                        .font(.system(size: 65))
-                                                        .foregroundStyle(.black)
-                                                }
-                                            }
-                                            .padding([.bottom, .trailing], 28.0)
-                                        }
+                        VStack{
+                            Spacer()
+                            HStack (){
+                                Spacer()
+                                Button {
+                                    hapticFeedback()
+                                    showForm = true
+                                } label: {
+                                    Image(systemName: "plus.circle.fill")
+                                        .font(.system(size: 65))
+                                        .foregroundStyle(.black)
+                                }
+                            }
+                            .padding([.bottom, .trailing], 28.0)
+                        }
                     }
                     
                 }
             )
         }
         .sheet(isPresented: $showForm) {
-            addJournalView()
+            addEditJournalView()
         }
     }
     func hapticFeedback(){
@@ -178,7 +171,7 @@ struct mainListView : View{
             .foregroundStyle(.fill)
             .background(.regularMaterial.opacity(0))
             .sheet(isPresented: $showformUpdate){
-                addJournalView(journal: JournalListModel)
+                addEditJournalView(journal: JournalListModel)
             }
             
             
@@ -254,123 +247,6 @@ struct mainListView : View{
         context.delete(deleteJournal)
     }
 }
-
-// create new journal
-struct addJournalView: View{
-    //var JournalFormModel : JournalModel
-    @Environment(\.dismiss) var dismiss
-    @State var JournalTitle: String = ""
-    @State var JournalContent: String = ""
-    @State var JournalDate: Date = .now
-    @State var JournalImage: String = ""
-    @Environment(\.modelContext) var context
-    
-    init(journal: JournalModel? = nil){
-        self.journal = journal
-        _JournalTitle = State(initialValue: journal?.title ?? "")
-        _JournalContent = State(initialValue: journal?.bodyContent ?? "")
-        _JournalDate = State(initialValue: journal?.date ?? .now)
-        
-    }
-    var journal: JournalModel?
-    var body: some View{
-        NavigationStack{
-            ZStack {
-                //Color.bgYellow.ignoresSafeArea()
-                //                Image("")
-                //                    .resizable()
-                //                    .aspectRatio(contentMode: .fit)
-                //                    .frame(width: 105, height: 100)
-                //                    .clipped()
-                //                    .cornerRadius(11)
-                VStack{
-                    //Color.bgYellow.ignoresSafeArea()
-                    
-                    //Text("Some text")
-                    TextField("Journal Title", text: $JournalTitle)
-                        .padding()
-                        .font(.title)
-                    Divider()
-                        .frame(height: 10)
-                        .padding(.vertical, -20)
-                    TextEditor(text: $JournalContent)
-                        .foregroundStyle(.fill)
-                        .scrollContentBackground(.hidden)
-                        .foregroundStyle(.black)
-                    //.background(Color.bgYellow)
-                        .padding(.top, -20.0)
-                    //.ignoresSafeArea()
-                    
-                    
-                }
-                
-                
-                
-            }
-            .onAppear {
-                if let journal = journal {
-                    JournalTitle = journal.title
-                    JournalContent = journal.bodyContent
-                    JournalDate = journal.date
-                }
-            }
-            .navigationTitle(journal == nil ? "New Journal" : "Edit Journal")
-            .navigationBarTitleDisplayMode(.inline)
-            .presentationBackground(.thickMaterial)
-            .toolbar{
-                ToolbarItem(placement: .topBarLeading){
-                    Button{
-                        dismiss()
-                    }label: {
-                        Text("Cancel")
-                    }
-                }
-                
-                ToolbarItem(placement: .topBarTrailing){
-                    Button{
-                        // code to save journal
-                        SaveJournal()
-                    } label: {
-                        Text("Save Journal")
-                    }
-                }
-            }
-        }
-    }
-    //save journal
-    func SaveJournal(){
-        if let journal = journal{
-            journal.title = JournalTitle
-            journal.bodyContent = JournalContent
-            journal.date = JournalDate
-            
-        } else{
-            let newJournal = JournalModel(title: JournalTitle, Image: "", date: JournalDate, bodyContent: JournalContent)
-            context.insert(newJournal)
-            
-        }
-        dismiss()
-    }
-    
-}
-
-
-
-struct JournalFormModel {
-    var title: String = ""
-    var bodyContent: String = ""
-    var date: Date = Date()
-}
-
-
-
-
-
-
-
-
-
-
 
 
 // for the images, we are using placeholder images for now. we will allow user to select their preffered image from their gallery
