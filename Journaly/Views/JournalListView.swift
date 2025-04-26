@@ -89,6 +89,15 @@ struct JournalListView: View {
                         
                     }
                     .padding()
+                    .toolbar{
+                        ToolbarItem(placement: .topBarTrailing){
+                            Button{
+                                
+                            }label:{
+                                Image(systemName: "waveform")
+                            }
+                        }
+                    }
 
                 }
                 .scrollIndicators(.hidden)
@@ -144,7 +153,7 @@ struct JournalListView: View {
         .sheet(isPresented: $showForm) {
             addEditJournalView()
         }
-    }
+            }
     func hapticFeedback(){
         let generator = UIImpactFeedbackGenerator(style:.light)
         generator.impactOccurred(intensity: 1)

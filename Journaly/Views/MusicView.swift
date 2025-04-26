@@ -11,7 +11,7 @@ struct MusicView: View {
     @State private var ExtendMusicView = false
     var body: some View {
         VStack{
-            Image(.billieCover)
+            Image(.waitAlbum)
                 .resizable()
                 //.aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
@@ -36,7 +36,7 @@ struct MusicView: View {
             
         }
         .padding(.horizontal)
-        .padding(.vertical, -17)
+        .padding(.vertical, -25)
         .frame(maxWidth: 360, maxHeight: 320)
         .font(.title2)
         .foregroundStyle(.fill)

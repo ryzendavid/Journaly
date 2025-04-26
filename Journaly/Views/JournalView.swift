@@ -158,13 +158,6 @@ struct JournalView: View {
                     
                     
                 }
-                // .navigationTitle("My Journal")
-                //.navigationBarTitleDisplayMode(.inline)
-                // .navigationBarTitleDisplayMode(.automatic)
-                //.preferredColorScheme(JournView.Image.isEmpty ? nil : .dark)
-                //.preferredColorScheme(.allCases)
-                
-                
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing){
                         

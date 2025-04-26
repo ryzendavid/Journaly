@@ -33,3 +33,11 @@ import Foundation
 //icloud sync
 //error handling and async
 //tests
+
+
+
+// for widgets
+// date
+//create new journal widget
+//Latest journal widget
+//favourite journal widget
