@@ -13,6 +13,7 @@ struct JournalListView: View {
     @Query var Journalss : [JournalModel]
     @Environment(\.modelContext) var context
     @Binding var backgroundColor : Color
+    @Binding var settingBlurToggle : Bool
     
     var body: some View {
         NavigationStack {
@@ -57,6 +58,10 @@ struct JournalListView: View {
                 // Color.backgroundCo.ignoresSafeArea(.all)
                 
                 backgroundColor.ignoresSafeArea(.all)
+                    //.blur(radius: 30)
+//                Image("sunsetMobile")
+//                    .resizable()
+//                    .ignoresSafeArea()
                 ScrollView {
                     
                     // List {
@@ -66,7 +71,7 @@ struct JournalListView: View {
                         
                         ForEach(Journalss) { journal in
                             NavigationLink{
-                                JournalView(JournView: journal, backgroundColor: $backgroundColor)
+                                JournalView(JournView: journal, backgroundColor: $backgroundColor, settingBlurToggle: $settingBlurToggle)
                                 
                             } label: {
                                 mainListView(JournalListModel: journal)
@@ -99,8 +104,12 @@ struct JournalListView: View {
                             label: {
                                 Label("No Journals", systemImage: "book")
                                     .font(.largeTitle)
+                                    .foregroundStyle(.fill)
+                                    .background(.ultraThinMaterial.opacity(0))
                             }, description: {
                                 Text("Add Journals to see them here")
+                                    .foregroundStyle(.fill)
+                                    .background(.ultraThinMaterial.opacity(0))
                             }, actions: {
                                 Button{
                                     //
@@ -110,6 +119,7 @@ struct JournalListView: View {
                                 }
                             }
                         ).offset(y: -60)
+                            
                     } else{
                         VStack{
                             Spacer()
@@ -142,7 +152,7 @@ struct JournalListView: View {
 }
 
 #Preview {
-    JournalListView(backgroundColor: .constant(.red))
+    JournalListView(backgroundColor: .constant(.red), settingBlurToggle: .constant(true))
 }
 
 // create list view
@@ -170,6 +180,7 @@ struct mainListView : View{
             .frame( alignment: .leading)
             .foregroundStyle(.fill)
             .background(.regularMaterial.opacity(0))
+            
             .sheet(isPresented: $showformUpdate){
                 addEditJournalView(journal: JournalListModel)
             }

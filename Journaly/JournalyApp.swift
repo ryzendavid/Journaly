@@ -12,6 +12,8 @@ import SwiftData
 struct JournalyApp: App {
     
     @StateObject private var navigationContext = NavContext()
+    //@StateObject private var settingsModel = SettingsModel(userName: "")
+    //@Binding var settingBlurToggle: Bool
 //    var sharedModelContainer: ModelContainer = {
 //        let schema = Schema([
 //            Item.self,
@@ -27,8 +29,9 @@ struct JournalyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainTabVIew()
+            MainTabVIew(settingBlurToggle: .constant(true))
+                //.environment(settingsModel)
         }
-        .modelContainer(for : [JournalModel.self])
+        .modelContainer(for : [JournalModel.self, SettingsModel.self])
     }
 }

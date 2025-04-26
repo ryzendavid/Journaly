@@ -68,7 +68,9 @@ struct colorSelectionView: View{
                 Rectangle()
                     .fill(num)
                     .frame(width:100, height: 100)
-                    .cornerRadius(20)
+                    //.border(num, width: 4)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    
                     .onTapGesture {
                         withAnimation{
                             bacckgroundColor = num
@@ -83,6 +85,6 @@ struct colorSelectionView: View{
 
 struct ImageSelectionView: View{
     var body: some View{
-        Text("Image Backgrounds")
+        Text("Image Backgrounds will be here")
     }
 }

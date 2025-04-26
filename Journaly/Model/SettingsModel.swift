@@ -6,3 +6,16 @@
 //
 
 import Foundation
+import SwiftData
+import Observation
+
+@Model
+class SettingsModel: ObservableObject {
+    var userName : String = ""
+    var settinBlurToggle = true
+    
+    init(userName: String, settinBlurToggle: Bool) {
+        self.userName = userName
+        self.settinBlurToggle = settinBlurToggle
+    }
+}

@@ -14,9 +14,8 @@ final class JournalModel: Identifiable {
     var Image : String
     var date : Date
     var bodyContent : String
-    
-    
-    init(title : String, Image: String, date: Date, bodyContent : String ){
+
+    init(title : String, Image: String, date: Date, bodyContent : String){
         self.title = title
         self.Image = Image
         self.date = date

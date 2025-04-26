@@ -11,11 +11,28 @@ import SwiftUI
 
 struct SuggestionsView: View {
     
-    //@Binding var suggestioncontent : [JournalingSuggetion.Stateofmind]
+    //@Binding var suggestioncontent : [JournalingSuggestion.Stateofmind]
     let suggestionsTitle = "Show events"
+    @State var isScaled = false
     var body: some View {
-       Text("Journaling Suggestions")
-//        SuggestionsPicker
+       
+        VStack{
+            Text("Journaling Suggestions")
+            Circle()
+                .fill(Color.green)
+                .frame(width: isScaled ? 400 : 0, height: isScaled ? 400 : 0)
+                .animation(.bouncy(duration: 1), value: isScaled)
+            
+            Button{
+                isScaled.toggle()
+            }label: {
+                Text("Scale Circle")
+            }
+        }
+        .frame(minWidth: 300, maxWidth: 800, minHeight: 300, maxHeight: 800)
+//        SuggestionPicker{
+//            
+//        }
     }
 }
 

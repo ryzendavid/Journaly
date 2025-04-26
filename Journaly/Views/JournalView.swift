@@ -7,22 +7,28 @@
 
 import SwiftUI
 import SwiftData
+import MapKit
 
 struct JournalView: View {
     var  JournView : JournalModel
     @StateObject private var audioManager = AudioManager()
-    @State var contentText : String = ""
-    //@Environment(NavigationContext.self) private var navigationContext
+    @State private var contentText : String = ""
+    @State private var blurValues = 0.0
+    @State private var isChanging = false
+    @State private var toggleBlur = false
+    @State private var blurSheet = false
+    @State private var showMusicPopover = false
+    @State private var showUpdateView = false
+    @Binding var backgroundColor: Color
+    @Binding var settingBlurToggle : Bool
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    let image = Image("sunsetMobile")
-    @Binding var backgroundColor: Color
-    @State var showUpdateView = false
     var journals : JournalModel?
-    @State var blurValues = 0.0
-    @State var isChanging = false
-    @State var toggleBlur = false
+    let image = Image("sunsetMobile")
+   
+    //var mapCooridinates =
+    
     
     
     // context menu state
@@ -76,6 +82,13 @@ struct JournalView: View {
                             
                             Text(JournView.bodyContent)
                             
+//                            Map()
+//                                .mapStyle(.standard)
+//                                .frame(width: 370, height: 300)
+//                                .cornerRadius(15)
+//                                .padding(.horizontal,30)
+                            
+                            
                             
                             //
                             //                        TextEditor(text: $contentText)
@@ -126,9 +139,18 @@ struct JournalView: View {
                         .onAppear{
                             audioManager.loadSound(named: "ArcSfx")
                         }
-                        .sheet(isPresented: $showUpdateView){
-                            addEditJournalView()
+//                        .sheet(isPresented: $showUpdateView){
+//                            addEditJournalView()
+//                        }
+                        .sheet(isPresented: $blurSheet){
+                            blurView(toggleBlur: $toggleBlur, blurValues: $blurValues, isChanging: $isChanging)
+                                .presentationDetents([.height(200)])
+                                .presentationDragIndicator(.visible)
+                                .presentationCornerRadius(40)
+                               
                         }
+                        
+                        
                         
                         
                         
@@ -142,11 +164,13 @@ struct JournalView: View {
                 //.preferredColorScheme(JournView.Image.isEmpty ? nil : .dark)
                 //.preferredColorScheme(.allCases)
                 
+                
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing){
                         
                         Button{
                             audioManager.togglePlayback()
+                            showMusicPopover = true
                         } label:{
                             if audioManager.isPlaying{
                                 Image(systemName: "waveform")
@@ -164,21 +188,33 @@ struct JournalView: View {
                                     .background(.ultraThinMaterial.opacity(0))
                             }
                         }
+                        .popover(isPresented: $showMusicPopover){
+                                    MusicView().presentationCompactAdaptation(.popover)
+                                .presentationBackground(.fill)
+                                .frame(width: 400, height: 400)
+                                }
                     }
                     ToolbarItem(placement : .topBarTrailing){
                         Menu{
                             
-                            
-                            Button{
-                                toggleBlur.toggle()
-                            }label: {
-                                if toggleBlur{
+                            if settingBlurToggle{
+                                Button{
+                                    withAnimation{
+                                        toggleBlur.toggle()
+                                    }
                                     
-                                    Label("Background Blur", systemImage: "xmark")
-                                } else{
-                                    Label("Background Blur", systemImage: "squareshape.dotted.squareshape")
+                                    
+                                    //blurSheet = true
+                                }label: {
+                                    if toggleBlur{
+                                        
+                                        Label("Background Blur", systemImage: "xmark")
+                                    } else{
+                                        Label("Background Blur", systemImage: "squareshape.dotted.squareshape")
+                                    }
                                 }
                             }
+                                
                             Button{
                                 //code to edit
                                 //updateJournalView(journal: JournalModel)
@@ -222,29 +258,36 @@ struct JournalView: View {
                         }
                     }
                 }
+              
                 
-                if toggleBlur{
-                    withAnimation(.spring(duration: 3.0)){
-                        
-                        
-                        VStack{
-                            Spacer()
-                            Slider(value: $blurValues, in: 0...500,
-                                   onEditingChanged: { editing in
-                                isChanging = editing
-                            }
-                            )
-                            Text("Blur Value: \(String(format:"%.0f",blurValues))")
-                                .font(.system(size: 20, weight: .bold, design: .default))
-                        }
-                        .padding()
-                        .bold()
-                        .foregroundStyle(.fill)
-                        .background(.ultraThinMaterial.opacity(0))
-                        
-                    }
-                }
+//            if toggleBlur{
+//                withAnimation(.spring(duration: 3.0)){
+//                    
+//                    
+//                    VStack{
+//                        Spacer()
+//                        Slider(value: $blurValues, in: 0...500,
+//                               onEditingChanged: { editing in
+//                            isChanging = editing
+//                        }
+//                        )
+//                        Text("Blur Value: \(String(format:"%.0f",blurValues))")
+//                            .font(.system(size: 20, weight: .bold, design: .default))
+//                    }
+//                    .padding()
+//                    .bold()
+//                    .foregroundStyle(.fill)
+//                    .background(.ultraThinMaterial.opacity(0))
+//                    
+//                }
+//            }
+                
+                //blur view
+                    blurView(toggleBlur: $toggleBlur, blurValues: $blurValues, isChanging: $isChanging)
+                
             }
+            .preferredColorScheme(.dark)
+            
             
             
         }
@@ -272,7 +315,7 @@ struct JournalView: View {
 
 
 #Preview {
-    JournalView(JournView: JournalModel(title: "My Journal", Image: "Image", date: Date(), bodyContent: "Reflections, dreams, and daily musings. A safe space for capturing thoughts, tracking growth, and exploring the journey of life. It’s a chronicle of growth, a record of achievements, and a sanctuary for unfiltered self-expression."), backgroundColor: .constant(.white))
+    JournalView(JournView: JournalModel(title: "My Journal", Image: "Image", date: Date(), bodyContent: "Reflections, dreams, and daily musings. A safe space for capturing thoughts, tracking growth, and exploring the journey of life. It’s a chronicle of growth, a record of achievements, and a sanctuary for unfiltered self-expression. Reflections, dreams, and daily musings. A safe space for capturing thoughts, tracking growth, and exploring the journey of life. It’s a chronicle of growth, a record of achievements, and a sanctuary for unfiltered self-expression."), backgroundColor: .constant(.red), settingBlurToggle: .constant(true))
 }
 
 
@@ -378,3 +421,51 @@ struct updateJournalView: View{
 //                    
 //                    .padding(10)
 
+
+struct blurView: View{
+    @Binding var toggleBlur: Bool
+    @Binding var blurValues: Double
+    @Binding var isChanging: Bool
+    //@Binding var toggleBlur: Bool
+    var body: some View{
+        
+        VStack{
+            if toggleBlur{
+                Spacer()
+                //ZStack {
+                    Rectangle()
+                    .fill(Color.clear)
+                        .background(content: {
+                            VStack{
+                                
+                                Spacer()
+                                
+                                //                        Rectangle()
+                                //                            .fill(Color.gray.opacity(0.2))
+                                //                            .frame(height: 30)
+                                Slider(value: $blurValues, in: 0...500,
+                                       onEditingChanged: { editing in
+                                    isChanging = editing
+                                }
+                                )
+                                Text("Blur Value: \(String(format:"%.0f",blurValues))")
+                                    .font(.system(size: 20, weight: .bold, design: .default))
+                            }
+                            .padding()
+                            .bold()
+                            .foregroundStyle(.fill)
+                            //.background(.ultraThinMaterial.opacity(0))
+                        })
+                        .background(.ultraThinMaterial)
+                        .frame(height: toggleBlur ? 100 : 20)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .foregroundStyle(.fill)
+                        
+                        
+              //
+                    
+            }
+        }
+        .padding(.all)
+    }
+}
