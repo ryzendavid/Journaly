@@ -8,9 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		FA66B2FB2DBBCA3A00DA252A /* SuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66B2FA2DBBCA3A00DA252A /* SuggestionView.swift */; };
+		FA8B912A2DBD1095008A9929 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8B91292DBD1095008A9929 /* WidgetKit.framework */; };
+		FA8B912C2DBD1095008A9929 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8B912B2DBD1095008A9929 /* SwiftUI.framework */; };
+		FA8B913D2DBD1096008A9929 /* JournalyWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FA8B91272DBD1095008A9929 /* JournalyWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FA8B913B2DBD1096008A9929 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAC607A02CF2C29E007A78F8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA8B91262DBD1095008A9929;
+			remoteInfo = JournalyWidgetExtension;
+		};
 		FAC607BC2CF2C29F007A78F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FAC607A02CF2C29E007A78F8 /* Project object */;
@@ -27,14 +37,49 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		FA8B913E2DBD1096008A9929 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FA8B913D2DBD1096008A9929 /* JournalyWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		FA66B2FA2DBBCA3A00DA252A /* SuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionView.swift; sourceTree = "<group>"; };
+		FA8B91272DBD1095008A9929 /* JournalyWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JournalyWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA8B91292DBD1095008A9929 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		FA8B912B2DBD1095008A9929 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		FAC607A82CF2C29E007A78F8 /* Journaly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journaly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAC607BB2CF2C29F007A78F8 /* JournalyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JournalyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAC607C52CF2C29F007A78F8 /* JournalyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JournalyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FA8B91412DBD1096008A9929 /* Exceptions for "JournalyWidget" folder in "JournalyWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FA8B91262DBD1095008A9929 /* JournalyWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		FA8B912D2DBD1095008A9929 /* JournalyWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FA8B91412DBD1096008A9929 /* Exceptions for "JournalyWidget" folder in "JournalyWidgetExtension" target */,
+			);
+			path = JournalyWidget;
+			sourceTree = "<group>";
+		};
 		FAC607AA2CF2C29E007A78F8 /* Journaly */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Journaly;
@@ -58,6 +103,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		FA8B91242DBD1095008A9929 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA8B912C2DBD1095008A9929 /* SwiftUI.framework in Frameworks */,
+				FA8B912A2DBD1095008A9929 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FAC607A52CF2C29E007A78F8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -82,6 +136,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA8B91282DBD1095008A9929 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA8B91292DBD1095008A9929 /* WidgetKit.framework */,
+				FA8B912B2DBD1095008A9929 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FAC6079F2CF2C29E007A78F8 = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +153,8 @@
 				FAC607AA2CF2C29E007A78F8 /* Journaly */,
 				FAC607BE2CF2C29F007A78F8 /* JournalyTests */,
 				FAC607C82CF2C29F007A78F8 /* JournalyUITests */,
+				FA8B912D2DBD1095008A9929 /* JournalyWidget */,
+				FA8B91282DBD1095008A9929 /* Frameworks */,
 				FAC607A92CF2C29E007A78F8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -100,6 +165,7 @@
 				FAC607A82CF2C29E007A78F8 /* Journaly.app */,
 				FAC607BB2CF2C29F007A78F8 /* JournalyTests.xctest */,
 				FAC607C52CF2C29F007A78F8 /* JournalyUITests.xctest */,
+				FA8B91272DBD1095008A9929 /* JournalyWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,6 +173,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		FA8B91262DBD1095008A9929 /* JournalyWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA8B91422DBD1096008A9929 /* Build configuration list for PBXNativeTarget "JournalyWidgetExtension" */;
+			buildPhases = (
+				FA8B91232DBD1095008A9929 /* Sources */,
+				FA8B91242DBD1095008A9929 /* Frameworks */,
+				FA8B91252DBD1095008A9929 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				FA8B912D2DBD1095008A9929 /* JournalyWidget */,
+			);
+			name = JournalyWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = JournalyWidgetExtension;
+			productReference = FA8B91272DBD1095008A9929 /* JournalyWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		FAC607A72CF2C29E007A78F8 /* Journaly */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAC607CF2CF2C29F007A78F8 /* Build configuration list for PBXNativeTarget "Journaly" */;
@@ -114,10 +202,12 @@
 				FAC607A42CF2C29E007A78F8 /* Sources */,
 				FAC607A52CF2C29E007A78F8 /* Frameworks */,
 				FAC607A62CF2C29E007A78F8 /* Resources */,
+				FA8B913E2DBD1096008A9929 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FA8B913C2DBD1096008A9929 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				FAC607AA2CF2C29E007A78F8 /* Journaly */,
@@ -183,9 +273,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1610;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					FA8B91262DBD1095008A9929 = {
+						CreatedOnToolsVersion = 16.3;
+					};
 					FAC607A72CF2C29E007A78F8 = {
 						CreatedOnToolsVersion = 16.1;
 					};
@@ -216,11 +309,19 @@
 				FAC607A72CF2C29E007A78F8 /* Journaly */,
 				FAC607BA2CF2C29F007A78F8 /* JournalyTests */,
 				FAC607C42CF2C29F007A78F8 /* JournalyUITests */,
+				FA8B91262DBD1095008A9929 /* JournalyWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		FA8B91252DBD1095008A9929 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FAC607A62CF2C29E007A78F8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -245,6 +346,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		FA8B91232DBD1095008A9929 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FAC607A42CF2C29E007A78F8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -270,6 +378,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		FA8B913C2DBD1096008A9929 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA8B91262DBD1095008A9929 /* JournalyWidgetExtension */;
+			targetProxy = FA8B913B2DBD1096008A9929 /* PBXContainerItemProxy */;
+		};
 		FAC607BD2CF2C29F007A78F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FAC607A72CF2C29E007A78F8 /* Journaly */;
@@ -283,6 +396,69 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		FA8B913F2DBD1096008A9929 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 32Y9M83562;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JournalyWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = JournalyWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = david.com.Journaly.JournalyWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FA8B91402DBD1096008A9929 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 32Y9M83562;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JournalyWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = JournalyWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = david.com.Journaly.JournalyWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		FAC607CD2CF2C29F007A78F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -415,6 +591,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Journaly needs access to your Apple Music Library to display and play Music";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -458,6 +635,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Journaly needs access to your Apple Music Library to display and play Music";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -582,6 +760,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		FA8B91422DBD1096008A9929 /* Build configuration list for PBXNativeTarget "JournalyWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA8B913F2DBD1096008A9929 /* Debug */,
+				FA8B91402DBD1096008A9929 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FAC607A32CF2C29E007A78F8 /* Build configuration list for PBXProject "Journaly" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

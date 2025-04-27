@@ -10,7 +10,8 @@ import SwiftUI
 struct JournalyWrapped: View {
     var body: some View {
         Text("Journaly Wrapped coming very soon...")
-            .font(.largeTitle)
+        Text("Stay Happy")
+            .font(.title2)
     }
 }
 

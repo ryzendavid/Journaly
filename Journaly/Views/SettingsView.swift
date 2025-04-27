@@ -19,6 +19,7 @@ struct SettingsView: View {
     @State var lockToggle = 4
     @State var userAvatar : UIImage?
     @State var photosPicker : PhotosPickerItem?
+    //var JournalWrapped 
     @Environment(\.modelContext) var context
     @Query var settingsModel: [SettingsModel]
     //@Bindable var settingsManager: SettingsModel
@@ -186,6 +187,18 @@ struct SettingsView: View {
                         
                     }
                     
+                    Section(header: Text(".Misc")){
+                        NavigationLink(destination: JournalyWrapped()) {
+                            HStack {
+                                Image(systemName: "timelapse")
+                                    .frame(width: 30)
+                                    .foregroundStyle(.secondary)
+                                Text("Journal Wrapped")
+                            }
+                        }
+                        
+                        
+                    }
                     
                     Section(header: Text("Danger Zone")){
                         Button{
