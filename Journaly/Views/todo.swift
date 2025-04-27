@@ -41,3 +41,4 @@ import Foundation
 //create new journal widget
 //Latest journal widget
 //favourite journal widget
+//list of(recent) journals
