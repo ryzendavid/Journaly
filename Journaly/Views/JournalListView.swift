@@ -14,46 +14,17 @@ struct JournalListView: View {
     @Environment(\.modelContext) var context
     @Binding var backgroundColor : Color
     @Binding var settingBlurToggle : Bool
+    //@State var search = ""
+     var filteredJournals: [JournalModel]{
+        guard !searchText.isEmpty else { return Journalss }
+        return Journalss.filter{ $0.title.localizedCaseInsensitiveContains(searchText) }
+    }
+    
+    @Binding var searchText : String
     
     var body: some View {
         NavigationStack {
-            //            ScrollView (.horizontal){
-            //
-            //                //wekekly journs
-            //
-            //                HStack (spacing: -20){
-            //                    Image("Hysterisis")
-            //                        .resizable()
-            //                        .frame(width: 110, height: 70)
-            //
-            //                        .clipShape(Circle())
-            ////                        .overlay(
-            ////                            RoundedRectangle(cornerSize: 14)
-            ////                        )
-            //                    Image("Hysterisis")
-            //                        .resizable()
-            //                        .frame(width: 110, height: 70)
-            //                        .clipShape(Circle())
-            //
-            //                    Image("Hysterisis")
-            //                        .resizable()
-            //                        .frame(width: 110, height: 70)
-            //                        .clipShape(Circle())
-            //
-            //                    Image("Hysterisis")
-            //                        .resizable()
-            //                        .frame(width: 110, height: 70)
-            //                        .clipShape(Circle())
-            //
-            //                    Image("Hysterisis")
-            //                        .resizable()
-            //                        .frame(width: 110, height: 70)
-            //                        .clipShape(Circle())
-            //
-            //
-            //                }
-            //}
-            //            .scrollIndicators(.hidden)
+           
             ZStack {
                 // Color.backgroundCo.ignoresSafeArea(.all)
                 
@@ -69,7 +40,7 @@ struct JournalListView: View {
                         
                         
                         
-                        ForEach(Journalss) { journal in
+                        ForEach(filteredJournals) { journal in
                             NavigationLink{
                                 JournalView(JournView: journal, backgroundColor: $backgroundColor, settingBlurToggle: $settingBlurToggle)
                                 
@@ -129,7 +100,24 @@ struct JournalListView: View {
                             }
                         ).offset(y: -60)
                             
-                    } else{
+                    } else if !searchText.isEmpty{
+//                        VStack{
+//                            Spacer()
+//                            HStack (){
+//                                Spacer()
+//                                Button {
+//                                    hapticFeedback()
+//                                    showForm = true
+//                                } label: {
+//                                    Image(systemName: "plus.circle.fill")
+//                                        .font(.system(size: 65))
+//                                        .foregroundStyle(.black)
+//                                }
+//                            }
+//                            .padding([.bottom, .trailing], 28.0)
+//                        }
+                    }
+                    else{
                         VStack{
                             Spacer()
                             HStack (){
@@ -139,17 +127,41 @@ struct JournalListView: View {
                                     showForm = true
                                 } label: {
                                     Image(systemName: "plus.circle.fill")
-                                        .font(.system(size: 65))
-                                        .foregroundStyle(.black)
+                                      .symbolRenderingMode(.palette)
+                                    // this will need to match user's current theme selection
+                                      .foregroundStyle(.bgYellow, .black)
+                                      .font(.system(size: 65))
                                 }
                             }
                             .padding([.bottom, .trailing], 28.0)
                         }
                     }
                     
+                    if filteredJournals.isEmpty{
+//                        ContentUnavailableView(
+//                            label: {
+//                                Label("No Results", systemImage: "xmark")
+//                                    .font(.largeTitle)
+//                                    .foregroundStyle(.fill)
+//                                    .background(.ultraThinMaterial.opacity(0))
+//                            }
+//                        ).offset(y: -60)
+                        
+                        VStack{
+                            Image(systemName: "exclamationmark.magnifyingglass")
+                                .font(.system(size: 60))
+                            Text("No results for '\(searchText)'")
+                                .font(.title2)
+                            Text("Check the spelling or try a different search")
+                                .font(.caption)
+                        }
+                        
+                    }
+                    
                 }
             )
         }
+//        .searchable(text:$searchText, prompt: "Search Journals")
         .sheet(isPresented: $showForm) {
             addEditJournalView()
         }
@@ -161,7 +173,7 @@ struct JournalListView: View {
 }
 
 #Preview {
-    JournalListView(backgroundColor: .constant(.red), settingBlurToggle: .constant(true))
+    JournalListView(backgroundColor: .constant(.red), settingBlurToggle: .constant(true), searchText: .constant("day"))
 }
 
 // create list view
@@ -193,20 +205,6 @@ struct mainListView : View{
             .sheet(isPresented: $showformUpdate){
                 addEditJournalView(journal: JournalListModel)
             }
-            
-            
-            //            Image("Hysterisis")
-            //                .resizable()
-            //                .aspectRatio(contentMode: .fill)
-            //
-            //                .frame(width: 105, height: 100)
-            //                .clipped()
-            //                .cornerRadius(11)
-            
-            //.clipShape(RoundedRectangle(cornerSize: 15))
-            
-            
-            
         }
         .padding()
         .frame(width: 380, alignment: .topLeading)
@@ -214,9 +212,6 @@ struct mainListView : View{
             ZStack {
                 Image("")
                     .resizable()
-                
-                
-                // Color.white
                     .blur(radius: 150, opaque: true)
                 
                 RoundedRectangle(cornerRadius: 10)

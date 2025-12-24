@@ -10,22 +10,36 @@ import SwiftUI
 struct MainTabVIew: View {
     @State var backgroundColor: Color = .white
     @Binding var settingBlurToggle: Bool
+    @State var searchJournals = ""
+    @FocusState var searchFocus : Bool
+    
+    
     var body: some View {
-        TabView{
-            JournalListView(backgroundColor: $backgroundColor, settingBlurToggle: $settingBlurToggle)
-                .tabItem{
-                    Label("Journal", systemImage: "text.book.closed.fill")
+            TabView {
+                Tab("Journal", systemImage: "text.book.closed.fill") {
+                    JournalListView(backgroundColor: $backgroundColor, settingBlurToggle: $settingBlurToggle, searchText: $searchJournals)
                 }
-            SettingsView(backgroundColor: $backgroundColor)
-                .tabItem{
-                Label("Settings", systemImage: "gearshape.fill")
-            }
-            BackgroundPickerView(bacckgroundColor: $backgroundColor)
-                .tabItem{
-                    Label("PickerView", systemImage: "circle.hexagongrid.circle")
+                Tab("Settings", systemImage: "gearshape.fill"){
+                    SettingsView(backgroundColor: $backgroundColor)
+                }
+                Tab("Search", systemImage: "magnifyingglass", role: .search){
+                    NavigationStack{
+                        JournalListView(backgroundColor: $backgroundColor, settingBlurToggle: $settingBlurToggle, searchText: $searchJournals)
+                        
+                        
+                        
+                    }
+                    .searchable(text:$searchJournals, prompt: "Search Journals")
+                    
+                    //binds focus
+                    .focused($searchFocus)
+                    .onChange(of: searchFocus){
+                        searchJournals = ""
+                        
+                    }
                 }
         }
-        //.tint(.darkbg)
+        
     }
 }
 
