@@ -186,6 +186,7 @@ struct JournalView: View {
                                 .presentationBackground(.fill)
                                 .frame(width: 400, height: 400)
                                 }
+                        .cornerRadius(10)
                     }
                     ToolbarItem(placement : .topBarTrailing){
                         Menu{
@@ -251,30 +252,6 @@ struct JournalView: View {
                         }
                     }
                 }
-              
-                
-//            if toggleBlur{
-//                withAnimation(.spring(duration: 3.0)){
-//                    
-//                    
-//                    VStack{
-//                        Spacer()
-//                        Slider(value: $blurValues, in: 0...500,
-//                               onEditingChanged: { editing in
-//                            isChanging = editing
-//                        }
-//                        )
-//                        Text("Blur Value: \(String(format:"%.0f",blurValues))")
-//                            .font(.system(size: 20, weight: .bold, design: .default))
-//                    }
-//                    .padding()
-//                    .bold()
-//                    .foregroundStyle(.fill)
-//                    .background(.ultraThinMaterial.opacity(0))
-//                    
-//                }
-//            }
-                
                 //blur view
                     blurView(toggleBlur: $toggleBlur, blurValues: $blurValues, isChanging: $isChanging)
                 

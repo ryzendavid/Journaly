@@ -9,6 +9,9 @@ import SwiftUI
 import SwiftData
 import PhotosUI
 
+//authenticating faceID
+import LocalAuthentication
+
 struct SettingsView: View {
     @State var nameTxt : String = ""
     @Binding var backgroundColor: Color
@@ -23,9 +26,14 @@ struct SettingsView: View {
     @Environment(\.modelContext) var context
     @Query var settingsModel: [SettingsModel]
     //@Bindable var settingsManager: SettingsModel
+    
+    //tracking face ID
+    @State var isUnlocked = false
+    var authenticateOnce = false
+    
     var body: some View {
         NavigationStack {
-            
+            if isUnlocked{
                 List {
                     
                     Section {
@@ -38,7 +46,7 @@ struct SettingsView: View {
                                     Image(uiImage: avatar)
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 110, height: 110) 
+                                        .frame(width: 110, height: 110)
                                     //.font(.system(size: 100))
                                         .shadow(radius: 4)
                                         .clipShape(Circle())
@@ -67,23 +75,23 @@ struct SettingsView: View {
                             
                             Text("Manage your name, background images and Color, journals and more.")
                                 .multilineTextAlignment(.center)
-                                //.padding(.top, 2)
+                            //.padding(.top, 2)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.vertical)
                         .listRowBackground(Color.clear)
                         .onChange(of: photosPicker){ _, _ in
-                          
-                               Task{
+                            
+                            Task{
                                 if let photosPicker,
-                                let data = try? await photosPicker.loadTransferable(type: Data.self){
+                                   let data = try? await photosPicker.loadTransferable(type: Data.self){
                                     if let image = UIImage(data: data){
                                         userAvatar = image
                                     }
                                 }
                                 photosPicker = nil
                             }
-                           
+                            
                         }
                     }
                     
@@ -120,12 +128,12 @@ struct SettingsView: View {
                     Section(header: Text("Privacy")){
                         HStack {
                             Image(systemName: "faceid")
-                                //.frame(width: 40)
+                            //.frame(width: 40)
                                 .font(.title2)
                                 .foregroundStyle(.fill)
                                 .background(.ultraThinMaterial.opacity(0))
                                 .padding(.trailing,10)
-                           
+                            
                             
                             Toggle(isOn: $enableFaceID){
                                 Text("Enable Face ID")
@@ -135,12 +143,12 @@ struct SettingsView: View {
                         
                         HStack {
                             Image(systemName: "bell.badge")
-                                //.frame(width: 40)
+                            //.frame(width: 40)
                                 .font(.title2)
                                 .foregroundStyle(.fill)
                                 .background(.ultraThinMaterial.opacity(0))
                                 .padding(.trailing,10)
-                           
+                            
                             
                             Toggle(isOn: $notificationToggle){
                                 Text("Daily Reminder")
@@ -150,12 +158,12 @@ struct SettingsView: View {
                         
                         HStack {
                             Image(systemName: "icloud")
-                                //.frame(width: 40)
+                            //.frame(width: 40)
                                 .font(.title2)
                                 .foregroundStyle(.fill)
                                 .background(.ultraThinMaterial.opacity(0))
                                 .padding(.trailing,10)
-                           
+                            
                             
                             Toggle(isOn: $icloudSyncToggle){
                                 Text("iCloud Sync")
@@ -165,23 +173,23 @@ struct SettingsView: View {
                         
                         HStack {
                             Image(systemName: "lock.app.dashed")
-                                //.frame(width: 40)
+                            //.frame(width: 40)
                                 .font(.title2)
                                 .foregroundStyle(.fill)
                                 .background(.ultraThinMaterial.opacity(0))
                                 .padding(.trailing,10)
-                           
                             
-                                
-                                Picker(selection: $lockToggle, label: Text("Auto Lock after")) {
-                                                Text("1 min").tag(1)
-                                                Text("5 min").tag(2)
-                                                Text("10 min").tag(3)
-                                                Text("Never").tag(4)
-                                            }
-                               // .defaultWheelPickerItemHeight(30)
-                                        
-                                        
+                            
+                            
+                            Picker(selection: $lockToggle, label: Text("Auto Lock after")) {
+                                Text("1 min").tag(1)
+                                Text("5 min").tag(2)
+                                Text("10 min").tag(3)
+                                Text("Never").tag(4)
+                            }
+                            // .defaultWheelPickerItemHeight(30)
+                            
+                            
                             
                         }
                         
@@ -230,6 +238,39 @@ struct SettingsView: View {
                         try? context.save()
                     }
                 }
+            } else{
+                VStack{
+                    Text("Standby for authentication")
+                        .font(.largeTitle)
+                    Spacer()
+                }
+            }
+        }
+        .onAppear(perform: authenticateID)
+    }
+    
+    func authenticateID(){
+        let context = LAContext()
+        var error : NSError?
+        
+        guard !authenticateOnce else {return}
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
+            let reason = "Face ID is used to unlock your Journals"
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason){ success, authenticationError in
+                if success {
+                    //authentication successful
+                    isUnlocked = true
+                    //authenticateOnce = true
+                    
+                } else{
+                    //failed
+                    isUnlocked = false
+                }
+            }
+        } else{
+            //no biometrics detected...
         }
     }
 }

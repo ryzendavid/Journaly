@@ -40,7 +40,7 @@ struct MusicView: View {
                 Image(.waitAlbum)
                     .resizable()
                 //.aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
                 //.frame(width: 370, height: 200)
             }
             HStack{
@@ -65,7 +65,7 @@ struct MusicView: View {
         }
         .padding(.horizontal)
         .padding(.vertical, -25)
-        .frame(maxWidth: 360, maxHeight: 320)
+        .frame(maxWidth: 370, maxHeight: 330)
         .font(.title2)
         .foregroundStyle(.fill)
         .background(.ultraThinMaterial.opacity(0))
