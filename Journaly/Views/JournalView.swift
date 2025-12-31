@@ -24,9 +24,10 @@ struct JournalView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
+    @State  var deleteConfirmation = false
     var journals : JournalModel?
     let image = Image("sunsetMobile")
-   
+    
     //var mapCooridinates =
     
     
@@ -34,13 +35,13 @@ struct JournalView: View {
     // context menu state
     @State var showCMenu = false
     
-//    init(journasl: JournalModel? = nil){
-//        self.journals = journals
-//        _JournalTitle = State(initialValue: journal?.title ?? "")
-//        _JournalContent = State(initialValue: journal?.bodyContent ?? "")
-//        _JournalDate = State(initialValue: journal?.date ?? .now)
-//        
-//    }
+    //    init(journasl: JournalModel? = nil){
+    //        self.journals = journals
+    //        _JournalTitle = State(initialValue: journal?.title ?? "")
+    //        _JournalContent = State(initialValue: journal?.bodyContent ?? "")
+    //        _JournalDate = State(initialValue: journal?.date ?? .now)
+    //
+    //    }
     
     // date format
     let dateFormatter: DateFormatter = {
@@ -58,13 +59,8 @@ struct JournalView: View {
                 
                 Image("sunsetMobileD")
                     .resizable()
-                //.aspectRatio(contentMode: .fit)
                     .ignoresSafeArea(.all)
                     .blur(radius: blurValues, opaque: true)
-                //e }
-                //Color.bgYellow.ignoresSafeArea(.all)
-                //backgroundColor.ignoresSafeArea(.all)
-                //                (LinearGradient(gradient: Gradient(colors: [Color.lightPurple, Color.actionPink]), startPoint: .top, endPoint: .bottom)).ignoresSafeArea(.all)
                 ScrollView{
                     if !isChanging{
                         // .opacity(0.9)
@@ -81,52 +77,6 @@ struct JournalView: View {
                             // text edit does not work with the fill property. I suggest we have the journal body as a text element. then to edit/enter content user has to click the menu button and edit from there
                             
                             Text(JournView.bodyContent)
-                            
-//                            Map()
-//                                .mapStyle(.standard)
-//                                .frame(width: 370, height: 300)
-//                                .cornerRadius(15)
-//                                .padding(.horizontal,30)
-                            
-                            
-                            
-                            //
-                            //                        TextEditor(text: $contentText)
-                            //
-                            //
-                            //                            .scrollContentBackground(.hidden)
-                            //                            //.background(.ultraThinMaterial.opacity(0))
-                            //                            .scrollIndicators(.hidden)
-                            //                            .foregroundStyle(.fill)
-                            //                            .background(Color.clear)
-                            //
-                            //
-                            //                            .onAppear{
-                            //                                contentText = JournView.bodyContent
-                            //                            }
-                            //                            .toolbar{
-                            //                                ToolbarItemGroup(placement: .keyboard){
-                            //                                    Button{
-                            //                                        //
-                            //                                    } label:{
-                            //                                        Image(systemName: "music.note")
-                            //                                    }
-                            //
-                            //                                    Button{
-                            //                                        //
-                            //                                    } label:{
-                            //                                        Image(systemName: "photo.badge.plus")
-                            //                                    }
-                            //
-                            //                                    Button{
-                            //                                        //
-                            //                                    } label:{
-                            //                                        Image(systemName: "photo.badge.plus")
-                            //                                    }
-                            //                                }
-                            //                            }
-                            
-                            
                         }
                         .bold()
                         .foregroundStyle(.fill)
@@ -139,25 +89,21 @@ struct JournalView: View {
                         .onAppear{
                             audioManager.loadSound(named: "ArcSfx")
                         }
-//                        .sheet(isPresented: $showUpdateView){
-//                            addEditJournalView()
-//                        }
+                        //                        .sheet(isPresented: $showUpdateView){
+                        //                            addEditJournalView()
+                        //                        }
                         .sheet(isPresented: $blurSheet){
                             blurView(toggleBlur: $toggleBlur, blurValues: $blurValues, isChanging: $isChanging)
                                 .presentationDetents([.height(200)])
                                 .presentationDragIndicator(.visible)
                                 .presentationCornerRadius(40)
-                               
                         }
-                        
-                        
-                        
-                        
                         
                     }
                     
                     
                 }
+                
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing){
                         
@@ -182,10 +128,10 @@ struct JournalView: View {
                             }
                         }
                         .popover(isPresented: $showMusicPopover){
-                                    MusicView().presentationCompactAdaptation(.popover)
+                            MusicView().presentationCompactAdaptation(.popover)
                                 .presentationBackground(.fill)
                                 .frame(width: 400, height: 400)
-                                }
+                        }
                         .cornerRadius(10)
                     }
                     ToolbarItem(placement : .topBarTrailing){
@@ -208,7 +154,6 @@ struct JournalView: View {
                                     }
                                 }
                             }
-                                
                             Button{
                                 //code to edit
                                 //updateJournalView(journal: JournalModel)
@@ -224,17 +169,17 @@ struct JournalView: View {
                                 Label("Share Journal", systemImage: "square.and.arrow.up")
                             }
                             
-                            Button{
+                            Button(role: .destructive){
                                 //code to delete
+                                deleteConfirmation.toggle()
                                 
-                                deleteJournal(JournView)
                                 
                                 
                             } label: {
                                 Label("Delete Journal", systemImage: "trash")
-                                
-                                
+                                    .foregroundStyle(.red, .red)
                             }
+                            
                             //.foregroundStyle(.red)
                             
                             
@@ -249,13 +194,25 @@ struct JournalView: View {
                                 .symbolEffect(.bounce.down.byLayer, options: .nonRepeating)
                             
                             
-                        }
+                        } .confirmationDialog("Delete Journal?", isPresented: $deleteConfirmation)
+                        {
+                            Button(role: .destructive){
+                                
+                                deleteJournal(JournView)
+                            }label:{
+                                Text("Delete Journal")
+                                    .tint(.red)
+                            } } message: {
+                                Text("Do you want to delete this Journal? Please note that this action can't be undone")
+                            }
                     }
+                    
                 }
                 //blur view
-                    blurView(toggleBlur: $toggleBlur, blurValues: $blurValues, isChanging: $isChanging)
+                blurView(toggleBlur: $toggleBlur, blurValues: $blurValues, isChanging: $isChanging)
                 
             }
+            
             .preferredColorScheme(.dark)
             
             
@@ -275,11 +232,11 @@ struct JournalView: View {
         
     }
     
-//   private func delJournal(offsets : IndexSet){
-//        for index in offsets {
-//            context.delete(JournalModel[index])
-//        }
-//    }
+    //   private func delJournal(offsets : IndexSet){
+    //        for index in offsets {
+    //            context.delete(JournalModel[index])
+    //        }
+    //    }
     
 }
 
@@ -318,11 +275,11 @@ struct updateJournalView: View{
                         .frame(height: 10)
                         .padding(.vertical, -20)
                     TextEditor(text: $journal.bodyContent)
-                        .foregroundStyle(.fill)
+                        //.foregroundStyle(.fill)
                         .scrollContentBackground(.hidden)
                         .foregroundStyle(.black)
                     //.background(Color.bgYellow)
-                        .padding(.top, -20.0)
+                        //.padding(.top, -20.0)
                     //.ignoresSafeArea()
                     
                     
@@ -333,7 +290,7 @@ struct updateJournalView: View{
             }
             .navigationTitle("Update Journal")
             .navigationBarTitleDisplayMode(.inline)
-            .presentationBackground(.thickMaterial)
+            //.presentationBackground(.thickMaterial)
             .toolbar{
                 ToolbarItem(placement: .topBarLeading){
                     Button{
@@ -346,7 +303,7 @@ struct updateJournalView: View{
                 ToolbarItem(placement: .topBarTrailing){
                     Button{
                         // code to save journal
-                       
+                        
                     } label: {
                         Text("Save Journal")
                     }
@@ -355,41 +312,6 @@ struct updateJournalView: View{
         }
     }
 }
-
-//struct CustomTextEditor: UIViewRepresentable {
-//    @Binding var text: String
-//    var textColor: UIColor
-//
-//    func makeUIView(context: Context) -> UITextView {
-//        let textView = UITextView()
-//        textView.backgroundColor = .clear
-//        textView.font = UIFont.preferredFont(forTextStyle: .body)
-//        textView.textColor = textColor
-//        textView.isEditable = true
-//        textView.isScrollEnabled = true
-//        return textView
-//    }
-//
-//    func updateUIView(_ uiView: UITextView, context: Context) {
-//        // Keep the text in sync
-//        uiView.text = text
-//        // If needed, you can also update the text color here.
-//        uiView.textColor = textColor
-//    }
-//}
-
-
-// this code below is to call an instance of CustomTextEditor
-
-//CustomTextEditor(text: $contentText, textColor: UIColor.tertiarySystemFill)
-//                            .frame(height: 150)
-//                            .overlay(RoundedRectangle(cornerRadius: 8)
-//                                        .stroke(Color.gray, lineWidth: 1))
-//                            .onAppear {
-//                                contentText = JournView.bodyContent
-//                            }
-//                    
-//                    .padding(10)
 
 
 struct blurView: View{
@@ -403,37 +325,37 @@ struct blurView: View{
             if toggleBlur{
                 Spacer()
                 //ZStack {
-                    Rectangle()
+                Rectangle()
                     .fill(Color.clear)
-                        .background(content: {
-                            VStack{
-                                
-                                Spacer()
-                                
-                                //                        Rectangle()
-                                //                            .fill(Color.gray.opacity(0.2))
-                                //                            .frame(height: 30)
-                                Slider(value: $blurValues, in: 0...500,
-                                       onEditingChanged: { editing in
-                                    isChanging = editing
-                                }
-                                )
-                                Text("Blur Value: \(String(format:"%.0f",blurValues))")
-                                    .font(.system(size: 20, weight: .bold, design: .default))
+                    .background(content: {
+                        VStack{
+                            
+                            Spacer()
+                            
+                            //                        Rectangle()
+                            //                            .fill(Color.gray.opacity(0.2))
+                            //                            .frame(height: 30)
+                            Slider(value: $blurValues, in: 0...500,
+                                   onEditingChanged: { editing in
+                                isChanging = editing
                             }
-                            .padding()
-                            .bold()
-                            .foregroundStyle(.fill)
-                            //.background(.ultraThinMaterial.opacity(0))
-                        })
-                        .background(.ultraThinMaterial)
-                        .frame(height: toggleBlur ? 100 : 20)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                            )
+                            Text("Blur Value: \(String(format:"%.0f",blurValues))")
+                                .font(.system(size: 20, weight: .bold, design: .default))
+                        }
+                        .padding()
+                        .bold()
                         .foregroundStyle(.fill)
-                        
-                        
-              //
-                    
+                        //.background(.ultraThinMaterial.opacity(0))
+                    })
+                    .background(.ultraThinMaterial)
+                    .frame(height: toggleBlur ? 100 : 20)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .foregroundStyle(.fill)
+                
+                
+                //
+                
             }
         }
         .padding(.all)

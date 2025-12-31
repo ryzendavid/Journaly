@@ -244,9 +244,9 @@ struct mainListView : View{
                 Text("Share Journal")
             }
             
-            Button {
+            Button (role:.destructive){
                 // code to delete journal
-                //deleteJournal(JournalListModel)
+                deleteJournal(JournalListModel)
                 
                 
             } label : {
