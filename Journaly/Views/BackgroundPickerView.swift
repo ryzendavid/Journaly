@@ -13,34 +13,41 @@ struct BackgroundPickerView: View {
     @Binding var bacckgroundColor: Color
     @State var backgroundPicker = 0
     var body: some View {
+        
         NavigationStack {
             
            
                 ZStack {
                     
+                    //background Colour
                     bacckgroundColor.ignoresSafeArea()
                     
-                    ScrollView {
+                    //background animation
+                    AnimatedDottedBackground()
+                    
+                    //ScrollView {
                         VStack{
-                            Picker("Background Selector", selection: $backgroundPicker){
-                                Text("Colors").tag(0)
-                                Text("Images").tag(1)
-                                
-                            }
-                            .pickerStyle(.segmented)
-                            .padding()
+                            
+//                            Picker("Background Selector", selection: $backgroundPicker){
+//                                Text("Colors").tag(0)
+//                                Text("Images").tag(1)
+//                                
+//                            }
+//                            .pickerStyle(.segmented)
+//                            .padding()
                             
                             if backgroundPicker == 0 {
                                 colorSelectionView(bacckgroundColor: $bacckgroundColor)
                             } else {
                                 ImageSelectionView()
                             }
+                            Spacer()
                         }
-                        .padding(.top,100)
-                    }
+                        //.padding(.top,100)
+                   // }
                     
                     
-                    //.navigationTitle("Journal Background")
+                    .navigationTitle("Background")
                 }
                 //.ignoresSafeArea()
                 
@@ -59,23 +66,39 @@ struct BackgroundPickerView: View {
 }
 
 struct colorSelectionView: View{
-    let colordata : [Color] = [.red,.blue,.green,.yellow,.orange,.purple,.pink,.brown,.black,.hazeBrown,.darkbg, .mint, .white, .bgYellow]
+    let colordata : [Color] = [.bgYellow,.happy,.altPurple,.lightblue,.lemonsGreen]
     let rows = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     @Binding var bacckgroundColor: Color
     var body: some View{
+        
         LazyVGrid(columns: rows, spacing: 35){
             ForEach(colordata, id: \.self){ num in
-                Rectangle()
-                    .fill(num)
-                    .frame(width:100, height: 100)
+                VStack{
+                    Rectangle()
+                        .fill(num)
+                        .frame(width:100, height: 100)
                     //.border(num, width: 4)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(LinearGradient(
+                                    colors: [.blue, .purple],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ), lineWidth: 6)
+                            
+                        )
                     
-                    .onTapGesture {
-                        withAnimation{
-                            bacckgroundColor = num
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                    
+                    
+                        .onTapGesture {
+                            withAnimation{
+                                bacckgroundColor = num
+                            }
                         }
-                    }
+                    //Text(colordata.)
+                        .font(.title2)
+                }
             }
             
         }

@@ -22,6 +22,9 @@ struct MainTabVIew: View {
                 Tab("Settings", systemImage: "gearshape.fill"){
                     SettingsView(backgroundColor: $backgroundColor)
                 }
+                Tab("Backgrounds", systemImage: "squareshape.dotted.squareshape"){
+                    BackgroundPickerView(bacckgroundColor: $backgroundColor)
+                }
                 Tab("Search", systemImage: "magnifyingglass", role: .search){
                     NavigationStack{
                         JournalListView(backgroundColor: $backgroundColor, settingBlurToggle: $settingBlurToggle, searchText: $searchJournals)

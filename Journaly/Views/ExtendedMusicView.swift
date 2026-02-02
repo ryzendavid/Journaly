@@ -9,7 +9,10 @@ import SwiftUI
 
 struct ExtendedMusicView: View {
     var body: some View {
-        Text("Apple music sheet view will appear here")
+        ZStack{
+            AnimatedDottedBackground()
+            Text("Apple music sheet view will appear here")
+        }
     }
 }
 

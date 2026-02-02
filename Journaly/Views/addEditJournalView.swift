@@ -49,7 +49,7 @@ struct addEditJournalView: View {
                         .frame(height: 10)
                         .padding(.vertical, -20)
                     TextEditor(text: $JournalContent)
-                        .foregroundStyle(.fill)
+                        //.foregroundStyle(.fill)
                         .scrollContentBackground(.hidden)
                         .foregroundStyle(.black)
                     //.background(Color.bgYellow)

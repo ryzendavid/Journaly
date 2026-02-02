@@ -56,11 +56,34 @@ struct JournalView: View {
             
             ZStack{
                 //if !JournView.Image.isEmpty{
+                //Color.bgYellow
+//                Image("mind2")
+//                    .resizable()
+//                    .ignoresSafeArea(.all)
+//                    .blur(radius: blurValues, opaque: true)
                 
-                Image("sunsetMobileD")
-                    .resizable()
-                    .ignoresSafeArea(.all)
-                    .blur(radius: blurValues, opaque: true)
+                //backgroundColor
+//                    .ignoresSafeArea(.all)
+                
+                LinearGradient(
+                            stops: [
+                                // 1. The "Black Hole" corner (Top Right)
+                                .init(color: Color(red: 0.01, green: 0.01, blue: 0.05), location: 0.0),
+                                
+                                // 2. The Deep Indigo transition
+                                .init(color: Color(red: 0.05, green: 0.05, blue: 0.2), location: 0.4),
+                                
+                                // 3. The "Electric" core (The brightest blue part)
+                                .init(color: Color(red: 0.1, green: 0.3, blue: 0.8), location: 0.75),
+                                
+                                // 4. The Bottom Flare (The white/cyan edge)
+                                .init(color: Color(red: 0.4, green: 0.8, blue: 1.0), location: 0.98)
+                            ],
+                            // Custom units to get that exact diagonal "lean" from the image
+                            startPoint: UnitPoint(x: 0.8, y: 0.1),
+                            endPoint: UnitPoint(x: 0.2, y: 0.9)
+                        )
+                        .ignoresSafeArea()
                 ScrollView{
                     if !isChanging{
                         // .opacity(0.9)
@@ -80,10 +103,9 @@ struct JournalView: View {
                         }
                         .bold()
                         .foregroundStyle(.fill)
+//                        .foregroundStyle(colorScheme == .dark ? .white : .hazeWhite)
                         .background(.ultraThinMaterial.opacity(0))
                         .frame(maxWidth: .infinity, alignment: .topLeading)
-                        //.foregroundStyle(colorScheme == .dark ? .white : .black)
-                        
                         .padding(10)
                         //.background(.ultraThinMaterial)
                         .onAppear{
@@ -213,7 +235,7 @@ struct JournalView: View {
                 
             }
             
-            .preferredColorScheme(.dark)
+            // .preferredColorScheme(.dark)
             
             
             
@@ -257,17 +279,7 @@ struct updateJournalView: View{
     var body: some View{
         NavigationStack{
             ZStack {
-                //Color.bgYellow.ignoresSafeArea()
-                //                Image("")
-                //                    .resizable()
-                //                    .aspectRatio(contentMode: .fit)
-                //                    .frame(width: 105, height: 100)
-                //                    .clipped()
-                //                    .cornerRadius(11)
                 VStack{
-                    //Color.bgYellow.ignoresSafeArea()
-                    
-                    //Text("Some text")
                     TextField("Journal Title", text: $journal.title)
                         .padding()
                         .font(.title)
@@ -275,10 +287,10 @@ struct updateJournalView: View{
                         .frame(height: 10)
                         .padding(.vertical, -20)
                     TextEditor(text: $journal.bodyContent)
-                        //.foregroundStyle(.fill)
+                        //.foregroundStyle(.red)
                         .scrollContentBackground(.hidden)
-                        .foregroundStyle(.black)
-                    //.background(Color.bgYellow)
+                        .foregroundStyle(.red)
+                    .background(Color.bgYellow)
                         //.padding(.top, -20.0)
                     //.ignoresSafeArea()
                     

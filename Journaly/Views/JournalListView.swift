@@ -27,7 +27,6 @@ struct JournalListView: View {
            
             ZStack {
                 // Color.backgroundCo.ignoresSafeArea(.all)
-                
                 backgroundColor.ignoresSafeArea(.all)
                     //.blur(radius: 30)
 //                Image("sunsetMobile")
@@ -75,6 +74,7 @@ struct JournalListView: View {
             }
             .navigationTitle("Journals")
             //.preferredColorScheme(.dark)
+            
             .overlay(
                 
                 VStack{
@@ -210,9 +210,9 @@ struct mainListView : View{
         .frame(width: 380, alignment: .topLeading)
         .background(
             ZStack {
-                Image("")
-                    .resizable()
-                    .blur(radius: 150, opaque: true)
+//                Image("")
+//                    .resizable()
+//                    .blur(radius: 150, opaque: true)
                 
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.ultraThinMaterial)
